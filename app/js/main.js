@@ -79,14 +79,32 @@ function attach_player_handler(player){
         //e.currentTarget.remove();
         shoot_projectile(e)
 
-        e.target.style.transform = 'rotate(0deg)'; // must reset this every click, else anime thinks it's completed its job and there's nothing to do
+        // Test 1 -> basic rotation
+        // e.target.style.transform = 'rotate(0deg)'; // must reset this every click, else anime thinks it's completed its job and there's nothing to do
+        // anime({
+        //   targets: e.target,
+        //   rotate: 360,
+        //   rotate: '1turn',
+        //   //backgroundColor: '#000',
+        //   //duration: 800
+        // });
+
         anime({
           targets: e.target,
-          rotate: 360,
-          rotate: '1turn',
-          //backgroundColor: '#000',
-          //duration: 800
-        });
+          rotate: [
+              { value: '-20deg', duration: 100 },
+              { value: '20deg', duration: 200 },
+              { value: '-20deg', duration: 300 },
+          ],
+          scale: [
+              { value: 1.2, duration: 150 },
+              { value: 0.8, duration: 150 },
+              // { value: 1.1, duration: 150 },
+              // { value: 1.0, duration: 150 }
+          ],
+          easing: 'easeInOutQuad',
+          direction: 'alternate', // Reverses the animation on each iteration
+      });
         
        
     };
