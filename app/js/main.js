@@ -67,7 +67,19 @@ function attach_player_handler(player){
     };
   
     player.onclick = (e) => {
-        e.currentTarget.remove();
+        //e.currentTarget.remove();
+        shoot_projectile(e)
+
+        e.target.style.transform = 'rotate(0deg)'; // must reset this every click, else anime thinks it's completed its job and there's nothing to do
+        anime({
+          targets: e.target,
+          rotate: 360,
+          rotate: '1turn',
+          //backgroundColor: '#000',
+          //duration: 800
+        });
+        
+       
     };
 }
 
@@ -75,6 +87,39 @@ function movePlayer(event, player) {
     // Update the position of the player div to follow the mouse cursor
     player.style.left = (event.clientX - player.offsetWidth / 2) + 'px';
     player.style.top = (event.clientY - player.offsetHeight / 2) + 'px';
+}
+
+function shoot_projectile(e, config_obj = {}){
+  let { type = "" } = config_obj;
+  // create projectile
+  //let new_projectile = spawn_ellipse();
+
+  const projectile = document.createElement('div');
+  projectile.className = 'projectile-fire';
+
+   // Set the initial position to the click location
+   projectile.style.left = e.clientX + 'px';
+   projectile.style.top = e.clientY + 'px';
+
+    // Add the div to the DOM
+    document.body.appendChild(projectile);
+
+    // Define the animation using anime.js
+    anime({
+        targets: projectile,
+        translateY: -window.innerHeight - 20, // Animate it upwards outside the viewport
+        duration: 1000, // Adjust the duration as needed
+        complete: function() {
+            // Remove the div when it's outside the viewport
+            projectile.remove();
+        }
+    });
+
+  // attach it to player
+  // run shoot animation
+
+
+  return type;
 }
     
 
@@ -88,7 +133,8 @@ run_test_btn.onclick = () => {
   let avatar = spawn_test_player(rand_color);
   //let test_spawn_point = [119, 124];
   main_view.appendChild(avatar);
- 
+
+  
 
 }
 

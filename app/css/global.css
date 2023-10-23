@@ -22,4 +22,9 @@ img {
   height: auto;
 }
 
+button {
+  user-select: none;
+  draggable: false;
+}
+
 /* end reset*/

@@ -32,3 +32,11 @@
   .cursor-pointer{
     cursor: pointer;
   }
+
+  .projectile-fire {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: red;
+    position: absolute;
+}
