@@ -1,0 +1,11 @@
+{
+  "name": "game_engine",
+  "version": "1.0.0",
+  "description": "Just a place to experiment with some ideas related to making videogames using my own custom software. This is being written from the ground up",
+  "main": "game_engine.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
