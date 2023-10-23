@@ -36,8 +36,17 @@ function spawn_test_player(color, size = []){
        old_avatar.remove();
     }
   
-    let new_avatar = spawn_quad_shape(color, [50]);
+    let test_img = "./img/rocket-icon-wht.png";
+    let new_avatar = spawn_quad_shape(color, [50], test_img);
     new_avatar.classList.add("player-avatar");
+
+    const backgroundImage = new Image();
+
+    backgroundImage.src = test_img;
+    backgroundImage.onload = function() {
+      new_avatar.style.backgroundImage = "url('" + test_img + "')";
+    };
+    
     let view_width = main_view.clientWidth;
     let view_height = main_view.clientHeight;
     let spawn_loc = [view_width / 2, view_height / 2];
@@ -152,7 +161,7 @@ run_test_btn.onclick = () => {
   // let square = spawn_quad_shape(rand_color);
   // let triangle = spawn_tri(rand_color);
   // let circle = spawn_ellipse(rand_color);
-  let avatar = spawn_test_player(rand_color);
+  let avatar = spawn_test_player("transparent");
   //let test_spawn_point = [119, 124];
   main_view.appendChild(avatar);
 

@@ -8,7 +8,7 @@
   .main_view{
     height: 100vh;
     width: 100vw;
-    /*background: red;*/
+    background: #000;
     position: relative;
   /*   z-index: 1000; */
     overflow: hidden;
@@ -29,6 +29,7 @@
     height: 0; */
   }
   
+  
   .cursor-pointer{
     cursor: pointer;
   }
@@ -39,4 +40,8 @@
     border-radius: 50%;
     background-color: red;
     position: absolute;
+}
+
+.player-avatar{
+  background-size: cover;
 }

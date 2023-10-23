@@ -1,5 +1,5 @@
 // 4 sided shape
-function spawn_quad_shape(color = "", size = []){
+function spawn_quad_shape(color = "", size = [], background = ""){
   
     let new_quad = document.createElement("div");
     let view_width = main_view.clientWidth;
@@ -42,6 +42,10 @@ function spawn_quad_shape(color = "", size = []){
      
      new_quad.style.backgroundColor = color;
      new_quad.classList.add("shape");
+
+     if(background != ""){
+      new_quad.style.backgroundImage = "url('" + background + "')";
+     }
   
      return new_quad;
 }
