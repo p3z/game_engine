@@ -102,24 +102,46 @@ function shoot_projectile(e, config_obj = {}){
    projectile.style.top = e.clientY + 'px';
 
     // Add the div to the DOM
-    document.body.appendChild(projectile);
+    main_view.appendChild(projectile);
 
-    // Define the animation using anime.js
-    anime({
+
+    // Calculate the delay for the explosion animation
+    const delay = window.innerHeight / 1000; // Adjust as needed
+
+       
+    // Define the projectile animation
+    const projectileAnimation = anime({
         targets: projectile,
         translateY: -window.innerHeight - 20, // Animate it upwards outside the viewport
-        duration: 1000, // Adjust the duration as needed
+        duration: 500, // Adjust the duration as needed,
+        easing: 'linear',
+        autoplay: false, // Pause the animation initially
         complete: function() {
             // Remove the div when it's outside the viewport
             projectile.remove();
         }
     });
 
-  // attach it to player
-  // run shoot animation
+      // Define an explosion animation just before it reaches the top
+      const explosionAnimation = anime({
+          targets: projectile,
+          scale: 5, // Increase the size to simulate an explosion
+          duration: 300, // Adjust the duration as needed
+          autoplay: false, // Pause the animation initially
+          delay: delay,
+          begin: function() {
+              // Start the projectile animation when the explosion begins
+              projectileAnimation.play();
+          }
+      });
+
+          // Play the explosion animation
+          explosionAnimation.play();
+
+  
 
 
-  return type;
+  return projectile;
 }
     
 
