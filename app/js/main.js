@@ -92,9 +92,10 @@ function attach_player_handler(player){
         anime({
           targets: e.target,
           rotate: [
-              { value: '-20deg', duration: 100 },
-              { value: '20deg', duration: 200 },
-              { value: '-20deg', duration: 300 },
+              { value: '-5deg', duration: 100 },
+              { value: '5deg', duration: 200 },
+              { value: '-5deg', duration: 300 },
+              { value: '0deg', duration: 0 },
           ],
           scale: [
               { value: 1.2, duration: 150 },
