@@ -67,12 +67,12 @@ function spawn_test_player(color, size = []){
 function attach_player_handler(player){
 
     player.onmouseover = () => {
-        document.addEventListener('mousemove', (e) => movePlayer(e, player));
+        document.addEventListener('mousemove', (e) => move_player(e, player));
 
     };
 
     player.onmouseout = () => {
-        document.removeEventListener('mousemove', movePlayer);
+        document.removeEventListener('mousemove', move_player);
     };
   
     player.onclick = (e) => {
@@ -111,7 +111,7 @@ function attach_player_handler(player){
     };
 }
 
-function movePlayer(event, player) {
+function move_player(event, player) {
     // Update the position of the player div to follow the mouse cursor
     player.style.left = (event.clientX - player.offsetWidth / 2) + 'px';
     player.style.top = (event.clientY - player.offsetHeight / 2) + 'px';
@@ -163,15 +163,67 @@ function shoot_projectile(e, config_obj = {}){
           }
       });
 
-          // Play the explosion animation
-          explosionAnimation.play();
+      // Play the explosion animation
+      explosionAnimation.play();
 
   
 
 
   return projectile;
 }
+
+function create_stars(qty = 1, color = "yellow"){
+  
+    for(let i = 0; i <= qty; i++){
+
+      let new_star = document.createElement("div");
+      new_star.classList.add("bg-star");
+      new_star.style.top = `-100px`; // top of viewport - 100 so enters smoothly
+      new_star.style.left = select_spawn_point().x_loc;
+
+      let star_distance = random_num(1000, 4000); // determine how far away star appears (the larger the number, the slow the star appears to go by)
+
+      main_view.appendChild(new_star);
+
+      anime({
+        targets: new_star,
+        top: `${window.innerHeight + 100}px `, // Animate to the bottom of the viewport
+        duration: star_distance, // Animation duration in milliseconds
+        easing: 'linear', // Linear animation for a smooth vertical transition
+        complete: function(anim) {
+          // Remove the star when the animation is complete
+          //new_star.remove();
+        }
+      });
+
+      
+
+
+    } // end loop
     
+}
+
+function space_flight(){
+  const MAX_STAR_QTY = 100;
+
+  // Add more stars periodically (adjust the interval as needed)
+  setInterval(() => {
+    let qty = random_num(0, 3); // decide how many stars to spawn this cycle
+    let skip_spawn = random_num(0, 100); // decide if we're going to spawn them this cyle
+
+    if(skip_spawn > 50){
+      create_stars(qty);
+    }
+    
+  }, 500);
+
+  
+
+  
+
+}
+
+
 
 
 
@@ -184,7 +236,10 @@ run_test_btn.onclick = () => {
   //let test_spawn_point = [119, 124];
   main_view.appendChild(avatar);
 
-  
+  // let test_stars = create_stars(5);
+
+  // console.log(test_stars)
+  space_flight()
 
 }
 

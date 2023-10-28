@@ -1,0 +1,8 @@
+.bg-star {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: yellow;
+    position: absolute;
+    /* z-index: 9999; */
+}
