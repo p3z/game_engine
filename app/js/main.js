@@ -192,7 +192,7 @@ function create_stars(qty = 1, color = "yellow"){
         easing: 'linear', // Linear animation for a smooth vertical transition
         complete: function(anim) {
           // Remove the star when the animation is complete
-          //new_star.remove();
+          new_star.remove();
         }
       });
 
