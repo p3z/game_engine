@@ -1,11 +1,12 @@
 var star_interval; // global handle for the setInterval controlling star creation
 const MAX_STAR_THRESHOLD = 100;
-const MIN_STAR_SIZE = 2;
-const MAX_STAR_SIZE = 10;
+const MIN_STAR_SIZE = 1;
+const MAX_STAR_SIZE = 8;
 const MIN_PLANET_SIZE = 20;
 const MAX_PLANET_SIZE = 50;
 const MAX_STAR_SPARSITY = 100;
-const PLANET_PASSING_THRESHOLD = 3; // out of 100 stars, this is the % chance it'll be a planet instead
+const DEFAULT_SPEED = random_num(100, 500);
+const PLANET_PASSING_THRESHOLD = 3; // out of 100 stars, this is the % chance it'll be a planet instead (3% is the usual setting)
 const STAR_COLORS = [
   '#FFFFFF', // white
   '#FFFFCC', // pale yellow
@@ -79,18 +80,14 @@ function spawn_test_player(color, size = []){
     
     let view_width = main_view.clientWidth;
     let view_height = main_view.clientHeight;
-    let spawn_loc = [view_width / 2, view_height / 2];
-  
-    let spawn_point = select_spawn_point();  
+    let spawn_loc = [view_width / 2, view_height / 2]; 
     let { x_loc, y_loc } = select_spawn_point(spawn_loc);
-    
-    
     
      new_avatar.style.left = `${x_loc}px`;
      new_avatar.style.top = `${y_loc}px`;
   
   attach_player_handler(new_avatar)
-    return new_avatar;
+  return new_avatar;
   
 }
 
@@ -98,7 +95,6 @@ function attach_player_handler(player){
 
     player.onmouseover = () => {
         document.addEventListener('mousemove', (e) => move_player(e, player));
-
     };
 
     player.onmouseout = () => {
@@ -107,17 +103,7 @@ function attach_player_handler(player){
   
     player.onclick = (e) => {
         //e.currentTarget.remove();
-        shoot_projectile(e)
-
-        // Test 1 -> basic rotation
-        // e.target.style.transform = 'rotate(0deg)'; // must reset this every click, else anime thinks it's completed its job and there's nothing to do
-        // anime({
-        //   targets: e.target,
-        //   rotate: 360,
-        //   rotate: '1turn',
-        //   //backgroundColor: '#000',
-        //   //duration: 800
-        // });
+        shoot_projectile(e);
 
         anime({
           targets: e.target,
@@ -139,6 +125,24 @@ function attach_player_handler(player){
         
        
     };
+
+    let clickTimer;
+    const clickThreshold = 500; // Adjust the threshold in milliseconds
+
+    player.onmousedown = () => {
+      clickTimer = setTimeout(() => {
+        // This code will execute when a continuous click or hold is detected
+        //console.log('Mouse click or hold detected');
+        //change_star_speed(star_interval, 300)
+      }, clickThreshold);
+    };
+
+    player.onmouseup = () => {
+      // Clear the timer when the mouse button is released
+      //console.log("Click released")
+      //change_star_speed(star_interval, DEFAULT_SPEED)
+      clearTimeout(clickTimer);
+    };
 }
 
 function move_player(event, player) {
@@ -147,10 +151,8 @@ function move_player(event, player) {
     player.style.top = (event.clientY - player.offsetHeight / 2) + 'px';
 }
 
-function shoot_projectile(e, config_obj = {}){
-  let { type = "" } = config_obj;
-  // create projectile
-  //let new_projectile = spawn_ellipse();
+function shoot_projectile(e){
+  
 
   const projectile = document.createElement('div');
   projectile.className = 'projectile-fire';
@@ -242,13 +244,56 @@ function create_stars(qty = 1, possible_cols = ["yellow"]){
     
 }
 
+function generate_pattern(bg_color1, bg_color2){
+  
+  // more patterns to be defined: source (https://www.magicpattern.design/tools/css-backgrounds), probs a better way to do this
+  let pattern1 = `repeating-linear-gradient(to right, #${bg_color1}, #${bg_color1} 1.2000000000000002px, #${bg_color2} 1.2000000000000002px, #${bg_color2})`;
+  let pattern2 = `repeating-linear-gradient(45deg, #${bg_color1} 25%, transparent 25%, transparent 75%, #${bg_color1} 75%, #${bg_color1}), repeating-linear-gradient(45deg, #${bg_color1} 25%, #${bg_color2} 25%, #${bg_color2} 75%, #${bg_color1} 75%, #${bg_color1})`;
+  let pattern3 = `linear-gradient(30deg, #${bg_color1} 12%, transparent 12.5%, transparent 87%, #${bg_color1} 87.5%, #${bg_color1}), linear-gradient(150deg, #${bg_color1} 12%, transparent 12.5%, transparent 87%, #${bg_color1} 87.5%, #${bg_color1}), linear-gradient(30deg, #${bg_color1} 12%, transparent 12.5%, transparent 87%, #${bg_color1} 87.5%, #${bg_color1}), linear-gradient(150deg, #${bg_color1} 12%, transparent 12.5%, transparent 87%, #${bg_color1} 87.5%, #${bg_color1}), linear-gradient(60deg, #${bg_color2} 25%, transparent 25.5%, transparent 75%, #${bg_color2} 75%, #${bg_color2}), linear-gradient(60deg, #${bg_color2} 25%, transparent 25.5%, transparent 75%, #${bg_color2} 75%, #${bg_color2})`;
+
+  let patterns = [
+    pattern1, pattern2, pattern3
+  ];
+
+  let selected_pattern = rand_arr_select(patterns);
+
+  let pattern_obj = {
+    bg_color1: bg_color1,
+    bg_color2: bg_color2,
+    //opacity: random_num(0.1, 1),
+    size: random_num(5, 15),
+    pattern: selected_pattern
+  };
+
+  //console.log(pattern_obj)
+
+  return pattern_obj;
+  
+}
 function create_planet(possible_cols = ["red"]){
   let new_planet = document.createElement("div");
       new_planet.classList.add("bg-planet");
+      
       new_planet.style.top = `-100px`; // above top of viewport - 100 so enters smoothly
       new_planet.style.left = select_spawn_point().x_loc;
-      new_planet.style.background = rand_arr_select(possible_cols);
       
+      let planet_pattern = generate_pattern(random_hex(), random_hex());
+      if( random_num(0, 100) < 30){
+        new_planet.style.background = rand_arr_select(possible_cols);
+      } else {
+        if(random_num(0, 1) == 1){
+          new_planet.classList.add("rotate-clockwise");
+        } else {
+          new_planet.classList.add("rotate-anti-clock");
+        }
+        new_planet.style.backgroundColor = rand_arr_select(PLANET_COLORS);
+        //new_planet.style.opacity = planet_pattern.opacity;
+        new_planet.style.backgroundSize = `${planet_pattern.size}px ${planet_pattern.size}px`;
+        new_planet.style.backgroundImage = planet_pattern.pattern;
+        new_planet.style.backgroundPosition = "0 0, 12px 12px"
+      }
+  
+
   let size = random_num(MIN_PLANET_SIZE, MAX_PLANET_SIZE);
     new_planet.style.width = `${size}px`;
     new_planet.style.height = `${size}px`;
@@ -321,6 +366,8 @@ function change_star_speed(process_id, new_delay = 0) {
 
 
 
+
+
 run_test_btn.onclick = () => {
   let rand_color = random_rgba();
   // let square = spawn_quad_shape(rand_color);
@@ -333,8 +380,7 @@ run_test_btn.onclick = () => {
   // let test_stars = create_stars(5);
 
   // console.log(test_stars)
-  let init_speed = random_num(100, 500);
-  space_flight(init_speed);
+  space_flight(DEFAULT_SPEED);
 
 
 
