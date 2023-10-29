@@ -1,5 +1,33 @@
-var star_interval; // handle for the setInterval controlling star creation
+var star_interval; // global handle for the setInterval controlling star creation
 const MAX_STAR_THRESHOLD = 100;
+const MIN_STAR_SIZE = 2;
+const MAX_STAR_SIZE = 10;
+const MIN_PLANET_SIZE = 20;
+const MAX_PLANET_SIZE = 50;
+const MAX_STAR_SPARSITY = 100;
+const PLANET_PASSING_THRESHOLD = 3; // out of 100 stars, this is the % chance it'll be a planet instead
+const STAR_COLORS = [
+  '#FFFFFF', // white
+  '#FFFFCC', // pale yellow
+  '#FFFF99', // light yellow
+  '#FFFF66', // yellow
+  '#E6E6E6', // light gray
+  '#CCCCCC', // gray
+  '#99CCFF', // light blue
+  '#66CCFF', // blue
+  '#FF99CC', // light pink
+  '#FF66CC'  // pink
+];
+
+const PLANET_COLORS = [
+  "#F0A1A1", // Pinkish
+  "#A1F0A1", // Greenish
+  "#A1A1F0", // Bluish
+  "#F0F0A1", // Yellowish
+  "#DAA520"  // Goldenrod
+];
+
+
 
 function clear_view(){
   main_view.innerHTML = "";
@@ -174,16 +202,25 @@ function shoot_projectile(e, config_obj = {}){
   return projectile;
 }
 
-function create_stars(qty = 1, color = "yellow"){
+function create_stars(qty = 1, possible_cols = ["yellow"]){
   
     for(let i = 0; i <= qty; i++){
 
       let new_star = document.createElement("div");
       new_star.classList.add("bg-star");
-      new_star.style.top = `-100px`; // top of viewport - 100 so enters smoothly
+      new_star.style.top = `-100px`; // above top of viewport - 100 so enters smoothly
       new_star.style.left = select_spawn_point().x_loc;
+      new_star.style.background = rand_arr_select(possible_cols);
 
-      let star_distance = random_num(1000, 4000); // determine how far away star appears (the larger the number, the slow the star appears to go by)
+
+      //box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+      let star_size = random_num(MIN_STAR_SIZE, MAX_STAR_SIZE);
+
+
+      new_star.style.width = `${star_size}px`;
+      new_star.style.height = `${star_size}px`;
+
+      let star_distance = random_num(1000, 4000); // determine how far away star appears (the larger the number, the slower the star appears to go by)
 
       main_view.appendChild(new_star);
 
@@ -205,26 +242,59 @@ function create_stars(qty = 1, color = "yellow"){
     
 }
 
+function create_planet(possible_cols = ["red"]){
+  let new_planet = document.createElement("div");
+      new_planet.classList.add("bg-planet");
+      new_planet.style.top = `-100px`; // above top of viewport - 100 so enters smoothly
+      new_planet.style.left = select_spawn_point().x_loc;
+      new_planet.style.background = rand_arr_select(possible_cols);
+      
+  let size = random_num(MIN_PLANET_SIZE, MAX_PLANET_SIZE);
+    new_planet.style.width = `${size}px`;
+    new_planet.style.height = `${size}px`;
+
+  let distance = random_num(3000, 4000); // determine how far away star appears (the larger the number, the slower the star appears to go by)
+
+  main_view.appendChild(new_planet);
+
+  anime({
+    targets: new_planet,
+    top: `${window.innerHeight + 100}px `, // Animate to the bottom of the viewport
+    duration: distance, // Animation duration in milliseconds
+    easing: 'linear', // Linear animation for a smooth vertical transition
+    complete: function(anim) {
+      // Remove the star when the animation is complete
+      new_planet.remove();
+    }
+  });
+}
+
 function space_flight(speed){
 
   // Add more stars periodically (adjust the interval as needed)
   star_interval = setInterval( () => {
+    
     let qty = random_num(0, 30); // decide how many stars to spawn this cycle
-    let skip_spawn = random_num(0, 100); // decide if we're going to spawn them this cyle
+    let current_sparsity = random_num(0, MAX_STAR_SPARSITY); // decide if we're going to spawn them this cyle
 
-    if(skip_spawn > 50){
+    if(current_sparsity <= PLANET_PASSING_THRESHOLD){
+      create_planet(PLANET_COLORS);
+      return;
+    }
+
+    if(current_sparsity > 50){
       let star_count = document.getElementsByClassName("bg-star").length;
      // console.log("Star count: " + star_count)
 
         // Check if adding `qty` stars won't exceed the threshold
       if (star_count + qty < MAX_STAR_THRESHOLD) {
         star_count += qty;
-        create_stars(qty);
+        create_stars(qty, STAR_COLORS);
       } else {
         // If adding `qty` stars would exceed the threshold, create fewer stars
         const available_space = MAX_STAR_THRESHOLD - star_count;
         star_count += available_space;
-        create_stars(available_space);
+        create_stars(available_space, STAR_COLORS);
       }
       
     }

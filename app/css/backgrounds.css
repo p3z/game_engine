@@ -4,5 +4,12 @@
     border-radius: 50%;
     background-color: yellow;
     position: absolute;
-    /* z-index: 9999; */
+}
+
+.bg-planet{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: red;
+    position: absolute;
 }

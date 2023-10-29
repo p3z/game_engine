@@ -26,3 +26,8 @@ function random_rgba(qty = 1){
     return colors;
     
 }
+
+function rand_arr_select(arr){
+    const index = Math.floor(Math.random() * arr.length);
+    return arr[index];
+}
