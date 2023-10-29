@@ -1,7 +1,9 @@
-
+var star_interval; // handle for the setInterval controlling star creation
+const MAX_STAR_THRESHOLD = 100;
 
 function clear_view(){
   main_view.innerHTML = "";
+  change_star_speed(star_interval);
 }
 
 function select_spawn_point(location = []){
@@ -203,25 +205,47 @@ function create_stars(qty = 1, color = "yellow"){
     
 }
 
-function space_flight(){
-  const MAX_STAR_QTY = 100;
+function space_flight(speed){
 
   // Add more stars periodically (adjust the interval as needed)
-  setInterval(() => {
-    let qty = random_num(0, 3); // decide how many stars to spawn this cycle
+  star_interval = setInterval( () => {
+    let qty = random_num(0, 30); // decide how many stars to spawn this cycle
     let skip_spawn = random_num(0, 100); // decide if we're going to spawn them this cyle
 
     if(skip_spawn > 50){
-      create_stars(qty);
+      let star_count = document.getElementsByClassName("bg-star").length;
+     // console.log("Star count: " + star_count)
+
+        // Check if adding `qty` stars won't exceed the threshold
+      if (star_count + qty < MAX_STAR_THRESHOLD) {
+        star_count += qty;
+        create_stars(qty);
+      } else {
+        // If adding `qty` stars would exceed the threshold, create fewer stars
+        const available_space = MAX_STAR_THRESHOLD - star_count;
+        star_count += available_space;
+        create_stars(available_space);
+      }
+      
     }
+
     
-  }, 500);
+    
+  }, speed);
 
-  
-
-  
-
+ 
 }
+
+function change_star_speed(process_id, new_delay = 0) {
+  clearInterval(process_id);
+
+  if(new_delay > 0){
+    process_id = setInterval(space_flight, new_delay);  
+  }
+  
+}
+
+
 
 
 
@@ -239,7 +263,10 @@ run_test_btn.onclick = () => {
   // let test_stars = create_stars(5);
 
   // console.log(test_stars)
-  space_flight()
+  let init_speed = random_num(100, 500);
+  space_flight(init_speed);
+
+
 
 }
 
