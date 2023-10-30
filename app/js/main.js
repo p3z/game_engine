@@ -1,33 +1,23 @@
+import { random_num, random_rgba, random_hex, rand_arr_select } from './utils.js';
+import { spawn_quad_shape, spawn_tri, spawn_ellipse  } from './game_engine_modules/shapes.js';
+import {
+  MAX_STAR_THRESHOLD,
+  MIN_STAR_SIZE,
+  MAX_STAR_SIZE,
+  MIN_PLANET_SIZE,
+  MAX_PLANET_SIZE,
+  MAX_STAR_SPARSITY,
+  DEFAULT_SPEED,
+  PLANET_PASSING_THRESHOLD,
+  STAR_COLORS,
+  PLANET_COLORS
+} from './game_engine_modules/vert_scroller/settings.js';
+
 var star_interval; // global handle for the setInterval controlling star creation
-const MAX_STAR_THRESHOLD = 100;
-const MIN_STAR_SIZE = 1;
-const MAX_STAR_SIZE = 8;
-const MIN_PLANET_SIZE = 20;
-const MAX_PLANET_SIZE = 50;
-const MAX_STAR_SPARSITY = 100;
-const DEFAULT_SPEED = random_num(100, 500);
-const PLANET_PASSING_THRESHOLD = 3; // out of 100 stars, this is the % chance it'll be a planet instead (3% is the usual setting)
-const STAR_COLORS = [
-  '#FFFFFF', // white
-  '#FFFFCC', // pale yellow
-  '#FFFF99', // light yellow
-  '#FFFF66', // yellow
-  '#E6E6E6', // light gray
-  '#CCCCCC', // gray
-  '#99CCFF', // light blue
-  '#66CCFF', // blue
-  '#FF99CC', // light pink
-  '#FF66CC'  // pink
-];
 
-const PLANET_COLORS = [
-  "#F0A1A1", // Pinkish
-  "#A1F0A1", // Greenish
-  "#A1A1F0", // Bluish
-  "#F0F0A1", // Yellowish
-  "#DAA520"  // Goldenrod
-];
-
+const main_view = document.querySelector(".main_view");
+const run_test_btn = document.querySelector('.run_test');
+const clear_view_btn = document.querySelector('.clear_view');
 
 
 function clear_view(){
@@ -68,7 +58,7 @@ function spawn_test_player(color, size = []){
     }
   
     let test_img = "./img/rocket-icon-wht.png";
-    let new_avatar = spawn_quad_shape(color, [50], test_img);
+    let new_avatar = spawn_quad_shape(main_view, color, [50], test_img);
     new_avatar.classList.add("player-avatar");
 
     const backgroundImage = new Image();
@@ -360,19 +350,10 @@ function change_star_speed(process_id, new_delay = 0) {
   
 }
 
-
-
-
-
-
-
-
-
-run_test_btn.onclick = () => {
+function init_vert_scroller(){
+  run_test_btn.onclick = () => {
   let rand_color = random_rgba();
-  // let square = spawn_quad_shape(rand_color);
-  // let triangle = spawn_tri(rand_color);
-  // let circle = spawn_ellipse(rand_color);
+  
   let avatar = spawn_test_player("transparent");
   //let test_spawn_point = [119, 124];
   main_view.appendChild(avatar);
@@ -387,4 +368,10 @@ run_test_btn.onclick = () => {
 }
 
 clear_view_btn.onclick = clear_view;
+}
 
+
+
+
+
+export { init_vert_scroller, main_view };

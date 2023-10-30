@@ -42,3 +42,6 @@ function rand_arr_select(arr){
     const index = Math.floor(Math.random() * arr.length);
     return arr[index];
 }
+
+export { random_num, random_rgba, random_hex, rand_arr_select };
+

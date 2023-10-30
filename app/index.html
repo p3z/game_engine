@@ -18,15 +18,10 @@
       </div>
     <div class="main_view"></div>
 
-    <script>
-      
-    </script>
-    
 
-    <!-- Order of scripts is important, remember not to go changing these up -->
-    <script src="./js/utils.js"></script>
-    <script src="./js/config.js"></script>   
-    <script src="./js/shapes.js"></script>
-    <script src="./js/main.js"></script>
+    <script type="module">
+        import { init_vert_scroller } from './js/main.js';        
+        init_vert_scroller();
+    </script>
   </body>
 </html>

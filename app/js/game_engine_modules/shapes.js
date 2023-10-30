@@ -1,9 +1,11 @@
+import { random_num, random_rgba, random_hex, rand_arr_select } from '../utils.js';
+
 // 4 sided shape
-function spawn_quad_shape(color = "", size = [], background = ""){
+function spawn_quad_shape(view, color = "", size = [], background = ""){
   
     let new_quad = document.createElement("div");
-    let view_width = main_view.clientWidth;
-    let view_height = main_view.clientHeight;
+    let view_width = view.clientWidth;
+    let view_height = view.clientHeight;
   
   // Initialise 
     let quad_size_w = random_num(100, 150);
@@ -53,8 +55,8 @@ function spawn_quad_shape(color = "", size = [], background = ""){
 function spawn_tri(color = "", type = "equal", size = []){
   
     let new_tri = document.createElement("div");
-    let view_width = main_view.clientWidth;
-    let view_height = main_view.clientHeight;
+    let view_width = view.clientWidth;
+    let view_height = view.clientHeight;
   
   // todo: add options for diff. types
 //     switch(type){         
@@ -92,3 +94,5 @@ function spawn_ellipse(color = "", size = []){
     ellipse.style.borderRadius = "50%";
     return ellipse;
 }
+
+export { spawn_quad_shape, spawn_tri, spawn_ellipse };
