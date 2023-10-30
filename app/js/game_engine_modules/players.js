@@ -1,6 +1,8 @@
 import { random_num, random_rgba, random_hex, rand_arr_select } from '../utils.js';
 import { spawn_quad_shape, spawn_tri, spawn_ellipse  } from './shapes.js';
 import { change_star_speed, select_spawn_point  } from './vert_scroller/environment.js';
+var player_score = 0;
+const score_element = document.querySelector('.js-score');
 
 function spawn_test_player(view, color, avatar,  size = []){
     // todo: this will need updating if you make multiplayer games
@@ -97,8 +99,10 @@ function move_player(event, player) {
 
 function shoot_projectile(view, e){
 
+  add_to_score(100)
+
 const laser1 = document.querySelector('.js-projectile-track-1');
-laser1.play();
+laser1.play()
 const projectile = document.createElement('div');
 projectile.className = 'projectile-fire';
 
@@ -112,36 +116,23 @@ projectile.className = 'projectile-fire';
 
   // Calculate the delay for the explosion animation
   const delay = window.innerHeight / 1000; // Adjust as needed
+  const projectile_range = 150; // minus numbers = outside the viewport
 
      
   // Define the projectile animation
   const projectileAnimation = anime({
       targets: projectile,
-      translateY: -window.innerHeight - 20, // Animate it upwards outside the viewport
-      duration: 500, // Adjust the duration as needed,
+      translateY: -window.innerHeight + projectile_range, // Animate it upwards 
+      duration: 300, // speed of projectile
       easing: 'linear',
       autoplay: false, // Pause the animation initially
-      complete: function() {
-          // Remove the div when it's outside the viewport
-          projectile.remove();
+      complete: function() {          
+          projectile.remove();// Remove the div when it's outside the viewport
+          
       }
   });
-
-    // Define an explosion animation just before it reaches the top
-    const explosionAnimation = anime({
-        targets: projectile,
-        scale: 5, // Increase the size to simulate an explosion
-        duration: 300, // Adjust the duration as needed
-        autoplay: false, // Pause the animation initially
-        delay: delay,
-        begin: function() {
-            // Start the projectile animation when the explosion begins
-            projectileAnimation.play();
-        }
-    });
-
-    // Play the explosion animation
-    explosionAnimation.play();
+  
+  projectileAnimation.play();
 
 
 
@@ -149,10 +140,21 @@ projectile.className = 'projectile-fire';
 return projectile;
 }
 
+function add_to_score(amt){
+  player_score += amt;  
+  score_element.textContent = player_score;
+}
+
+function set_score(score){
+  player_score = score;
+  score_element.textContent = score;
+}
 
 export {
   spawn_test_player,
   attach_player_handler,
   move_player,
-  shoot_projectile
+  shoot_projectile,
+  score_element,
+  set_score
 }

@@ -1,6 +1,6 @@
 import { random_num, random_rgba, random_hex, rand_arr_select } from './utils.js';
 import { spawn_quad_shape, spawn_tri, spawn_ellipse  } from './game_engine_modules/shapes.js';
-import { spawn_test_player  } from './game_engine_modules/players.js';
+import { spawn_test_player, set_score  } from './game_engine_modules/players.js';
 import { change_star_speed, select_spawn_point  } from './game_engine_modules/vert_scroller/environment.js';
 import {
   MAX_STAR_THRESHOLD,
@@ -16,7 +16,7 @@ import {
 } from './game_engine_modules/vert_scroller/settings.js';
 
 var star_interval; // global handle for the setInterval controlling star creation
-
+const scoreboard = document.querySelector(".scoreboard");
 const main_view = document.querySelector(".main_view");
 const backing_track = document.querySelector('.js-backing-track');
 const laser1 = document.querySelector('.js-projectile-track-1');
@@ -32,6 +32,8 @@ function stop_audio(audio){
 
 function clear_view(){
   main_view.innerHTML = "";
+  scoreboard.style.display = "none";
+  set_score(0);
   change_star_speed(star_interval);
   main_view.classList.remove("pws-gradient-animation");
   stop_audio(backing_track);
@@ -191,15 +193,16 @@ function space_flight(speed){
 
 
 function init_vert_scroller(){
-  const run_test_btn = document.querySelector('.run_test');
-  const clear_view_btn = document.querySelector('.clear_view');
-  
+  const run_test_btn = document.querySelector('.js-run_test');
+  const clear_view_btn = document.querySelector('.js-clear_view');
+
 
   run_test_btn.onclick = () => {
 
     backing_track.play();
 
     main_view.classList.add("pws-gradient-animation");
+    scoreboard.style.display = "flex";
 
       //let rand_color = random_rgba();
       let avatar_img = "./img/rocket-icon-wht.png";

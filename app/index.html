@@ -10,18 +10,20 @@
   </head>
   <body>
     <div class="control_panel">
-        <button class="run_test btn">
+        <button class="js-run_test dev-btn">
             Run test
         </button>
       
-      <button class="clear_view btn">
+      <button class="js-clear_view dev-btn">
             Clear view
         </button>
       </div>
     <div class="main_view"></div>
+    <div class="scoreboard">
+      <span class="js-score">0</span>
+    </div>
 
-    <!-- todo: suffices for now but shd probs use a library -->
-
+    <!-- todo: audio elements suffice for now but shd probs use a library -->
     <audio class="js-backing-track">
       <source src="./audio/track1.mp3" type="audio/mpeg">
       Your browser does not support the audio element.
