@@ -1,0 +1,43 @@
+/*
+Animated Gradient Effect
+Copyright (c) 2020 by Manuel Pinto (https://codepen.io/P1N2O/pen/pyBNzX)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+.pws-gradient-animation {
+	/* Original colors: */
+	/*
+	background: linear-gradient(
+		-45deg,
+		#ee7752,,
+		#e73c7e,
+		#23a6d5,
+		#23d5ab
+	);
+	*/
+	
+	background: linear-gradient(
+		-45deg,
+		#000000, #001f3f, #520652, #074d4d
+
+
+	);
+	background-size: 400% 400%;
+	animation: pws_gradient 15s ease infinite;
+	
+}
+
+@keyframes pws_gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
