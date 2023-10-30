@@ -19,5 +19,6 @@ nbproject/
 **/node_modules/
 **/dist
 *.js.ignore
+**/audio
 
 

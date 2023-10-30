@@ -18,13 +18,23 @@ import {
 var star_interval; // global handle for the setInterval controlling star creation
 
 const main_view = document.querySelector(".main_view");
+const backing_track = document.querySelector('.js-backing-track');
+const laser1 = document.querySelector('.js-projectile-track-1');
+
+
+function stop_audio(audio){
+  audio.pause();
+  audio.currentTime = 0;
+  
+
+}
 
 
 function clear_view(){
   main_view.innerHTML = "";
   change_star_speed(star_interval);
   main_view.classList.remove("pws-gradient-animation");
-
+  stop_audio(backing_track);
 }
 
 
@@ -183,8 +193,11 @@ function space_flight(speed){
 function init_vert_scroller(){
   const run_test_btn = document.querySelector('.run_test');
   const clear_view_btn = document.querySelector('.clear_view');
+  
 
   run_test_btn.onclick = () => {
+
+    backing_track.play();
 
     main_view.classList.add("pws-gradient-animation");
 

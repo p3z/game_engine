@@ -97,7 +97,8 @@ function move_player(event, player) {
 
 function shoot_projectile(view, e){
 
-
+const laser1 = document.querySelector('.js-projectile-track-1');
+laser1.play();
 const projectile = document.createElement('div');
 projectile.className = 'projectile-fire';
 
