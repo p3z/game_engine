@@ -1,8 +1,10 @@
 import { random_num, random_rgba, random_hex, rand_arr_select } from '../utils.js';
 import { spawn_quad_shape, spawn_tri, spawn_ellipse  } from './shapes.js';
 import { change_star_speed, select_spawn_point  } from './vert_scroller/environment.js';
-var player_score = 0;
-const score_element = document.querySelector('.js-score');
+
+const DEFAULT_PLAYER_LIVES = 3;
+const DEFAULT_PLAYER_SCORE = 0;
+
 
 function spawn_test_player(view, color, avatar,  size = []){
     // todo: this will need updating if you make multiplayer games
@@ -99,8 +101,6 @@ function move_player(event, player) {
 
 function shoot_projectile(view, e){
 
-  add_to_score(100)
-
 const laser1 = document.querySelector('.js-projectile-track-1');
 laser1.play()
 const projectile = document.createElement('div');
@@ -135,19 +135,14 @@ projectile.className = 'projectile-fire';
   projectileAnimation.play();
 
 
-
-
 return projectile;
 }
 
-function add_to_score(amt){
-  player_score += amt;  
-  score_element.textContent = player_score;
-}
 
-function set_score(score){
-  player_score = score;
-  score_element.textContent = score;
+function set_element_state(attribute, element, state){
+  attribute = state;
+  element.textContent = state;
+
 }
 
 export {
@@ -155,6 +150,7 @@ export {
   attach_player_handler,
   move_player,
   shoot_projectile,
-  score_element,
-  set_score
+  set_element_state,
+  DEFAULT_PLAYER_LIVES,
+  DEFAULT_PLAYER_SCORE
 }

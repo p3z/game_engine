@@ -14,12 +14,10 @@
   overflow: hidden;
 }
 
-.scoreboard{
+.ui-board{
   height: 50px;
   width: 150px;
-  position: fixed;
-  top: 0;
-  right: 0;
+  position: fixed;  
   z-index: 9999;
   background: rgba(255, 255, 255, 0.5);
   font-family: sans-serif;
@@ -27,6 +25,17 @@
   justify-content: center;
   align-items: center;
 }
+
+.scoreboard{
+  top: 0;
+  right: 0;
+}
+
+.lifeboard{
+  bottom: 0;
+  right: 0;
+}
+
 
 .dev-btn{
   padding: 5px 10px;
@@ -57,5 +66,9 @@
 }
 
 .player-avatar{
-background-size: cover;
+  background-size: cover;
+}
+
+.lifeboard-avatar{
+  max-width: 15px;
 }

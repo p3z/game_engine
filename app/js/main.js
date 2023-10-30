@@ -1,6 +1,6 @@
 import { random_num, random_rgba, random_hex, rand_arr_select } from './utils.js';
 import { spawn_quad_shape, spawn_tri, spawn_ellipse  } from './game_engine_modules/shapes.js';
-import { spawn_test_player, set_score  } from './game_engine_modules/players.js';
+import { spawn_test_player, set_element_state, DEFAULT_PLAYER_LIVES, DEFAULT_PLAYER_SCORE  } from './game_engine_modules/players.js';
 import { change_star_speed, select_spawn_point  } from './game_engine_modules/vert_scroller/environment.js';
 import {
   MAX_STAR_THRESHOLD,
@@ -17,9 +17,17 @@ import {
 
 var star_interval; // global handle for the setInterval controlling star creation
 const scoreboard = document.querySelector(".scoreboard");
+const lifeboard = document.querySelector(".lifeboard");
+const lifeboard_avatar =  document.querySelector(".lifeboard-avatar");
 const main_view = document.querySelector(".main_view");
+const score_element = document.querySelector('.js-score');
+const life_element = document.querySelector('.js-lives');
 const backing_track = document.querySelector('.js-backing-track');
 const laser1 = document.querySelector('.js-projectile-track-1');
+
+var player_score = DEFAULT_PLAYER_SCORE;
+var player_lives = DEFAULT_PLAYER_LIVES;
+
 
 
 function stop_audio(audio){
@@ -30,10 +38,13 @@ function stop_audio(audio){
 }
 
 
-function clear_view(){
+function reset_view(){
   main_view.innerHTML = "";
-  scoreboard.style.display = "none";
-  set_score(0);
+  ui_toggle(false);
+  player_score = DEFAULT_PLAYER_SCORE;
+  player_lives = DEFAULT_PLAYER_LIVES;
+  set_element_state(player_score, score_element, player_score);
+  set_element_state(player_lives, life_element, player_lives);
   change_star_speed(star_interval);
   main_view.classList.remove("pws-gradient-animation");
   stop_audio(backing_track);
@@ -190,35 +201,59 @@ function space_flight(speed){
  
 }
 
+function ui_toggle(show_ui=true){
+  if(show_ui){
+    scoreboard.style.display = "flex";
+    lifeboard.style.display = "flex";
+    scoreboard.classList.remove("hide");
+    lifeboard.classList.remove("hide");
+    lifeboard_avatar.classList.remove("hide");
+  } else {
+    scoreboard.style.display = "none";
+    lifeboard.style.display = "none";
+    scoreboard.classList.add("hide");
+    lifeboard.classList.add("hide");
+    lifeboard_avatar.classList.add("hide");
+  }
+}
+
 
 
 function init_vert_scroller(){
   const run_test_btn = document.querySelector('.js-run_test');
-  const clear_view_btn = document.querySelector('.js-clear_view');
+  const reset_btn = document.querySelector('.js-reset');
+  const test_btn  = document.querySelector('.js-test');
 
 
   run_test_btn.onclick = () => {
 
+    clearInterval(star_interval); // make sure to clear this, starting from scratch via space_flight() otherwise you end up with bugs
+    set_element_state(player_score, score_element, player_score);
+    set_element_state(player_lives, life_element, player_lives);
+    ui_toggle();
+
     backing_track.play();
 
     main_view.classList.add("pws-gradient-animation");
-    scoreboard.style.display = "flex";
+    
 
-      //let rand_color = random_rgba();
-      let avatar_img = "./img/rocket-icon-wht.png";
-      let avatar = spawn_test_player(main_view, "transparent", avatar_img, );      
-      main_view.appendChild(avatar);
-
-      // let test_stars = create_stars(5);
-
-      // console.log(test_stars)
-      space_flight(DEFAULT_SPEED);
+    //let rand_color = random_rgba();
+    let avatar_img = "./img/rocket-icon-wht.png";
+    let avatar = spawn_test_player(main_view, "transparent", avatar_img, );      
+    main_view.appendChild(avatar);
+    
+    space_flight(DEFAULT_SPEED);
 
 
 
   } // end click handler
 
-  clear_view_btn.onclick = clear_view;
+  test_btn.onclick = () => {
+    set_element_state(player_score, score_element, player_score++);
+    set_element_state(player_lives, life_element, player_lives++);
+  }
+
+  reset_btn.onclick = reset_view;
 }
 
 
