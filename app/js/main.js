@@ -37,12 +37,16 @@ function stop_audio(audio){
 
 }
 
+function reset_values(){
+  player_score = DEFAULT_PLAYER_SCORE;
+  player_lives = DEFAULT_PLAYER_LIVES;
+}
+
 
 function reset_view(){
   main_view.innerHTML = "";
   ui_toggle(false);
-  player_score = DEFAULT_PLAYER_SCORE;
-  player_lives = DEFAULT_PLAYER_LIVES;
+  reset_values();
   set_element_state(player_score, score_element, player_score);
   set_element_state(player_lives, life_element, player_lives);
   change_star_speed(star_interval);
@@ -226,6 +230,7 @@ function init_vert_scroller(){
 
 
   run_test_btn.onclick = () => {
+    reset_values();
 
     clearInterval(star_interval); // make sure to clear this, starting from scratch via space_flight() otherwise you end up with bugs
     set_element_state(player_score, score_element, player_score);
@@ -249,8 +254,10 @@ function init_vert_scroller(){
   } // end click handler
 
   test_btn.onclick = () => {
-    set_element_state(player_score, score_element, player_score++);
-    set_element_state(player_lives, life_element, player_lives++);
+    player_score++;
+    player_lives++;
+    set_element_state(player_score, score_element, player_score * 100);
+    set_element_state(player_lives, life_element, player_lives);
   }
 
   reset_btn.onclick = reset_view;

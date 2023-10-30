@@ -27,11 +27,13 @@
 }
 
 .scoreboard{
+  display: none;
   top: 0;
   right: 0;
 }
 
 .lifeboard{
+  display: none;
   bottom: 0;
   right: 0;
 }
