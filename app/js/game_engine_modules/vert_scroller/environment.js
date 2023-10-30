@@ -26,12 +26,15 @@ function select_spawn_point(view, location = []){
       x_loc = location[0];
       y_loc = location[1];
     }
-    
-    
-    return {
+
+    let spawn_point = {
       x_loc: x_loc,
       y_loc: y_loc
-    }
+    };
+    
+    //console.log(spawn_point)
+    
+    return spawn_point;
   }
 
 export {

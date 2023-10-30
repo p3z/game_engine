@@ -24,7 +24,7 @@ function spawn_test_player(view, color, avatar,  size = []){
     let view_width = view.clientWidth;
     let view_height = view.clientHeight;
     let spawn_loc = [view_width / 2, view_height / 2]; 
-    let { x_loc, y_loc } = select_spawn_point(spawn_loc);
+    let { x_loc, y_loc } = select_spawn_point(view, spawn_loc);
     
      new_avatar.style.left = `${x_loc}px`;
      new_avatar.style.top = `${y_loc}px`;
