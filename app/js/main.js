@@ -16,6 +16,7 @@ import {
 } from './game_engine_modules/vert_scroller/settings.js';
 
 var star_interval; // global handle for the setInterval controlling star creation
+var main_view_DOM_size; // global handle describing the no. elements inside main_view
 const scoreboard = document.querySelector(".scoreboard");
 const lifeboard = document.querySelector(".lifeboard");
 const lifeboard_avatar =  document.querySelector(".lifeboard-avatar");
@@ -62,6 +63,8 @@ function reset_view(){
   change_star_speed(star_interval);
   main_view.classList.remove("pws-gradient-animation");
   stop_audio(backing_track);
+  clearInterval(main_view_DOM_size);
+  console.log("Run stopped");
 }
 
 
@@ -130,7 +133,7 @@ function init_vert_scroller(){
 
   run_test_btn.onclick = () => {
 
-    setInterval( () => {
+    main_view_DOM_size = setInterval( () => {
       check_DOM_size(main_view, "main view container");
     }, 300);
 
@@ -162,7 +165,8 @@ function init_vert_scroller(){
     player_score++;
     player_lives++;
     set_element_state(player_score, score_element, player_score * 100);
-    set_element_state(player_lives, life_element, player_lives);
+    set_element_state(player_lives, life_element, player_lives);    
+    
   }
 
   reset_btn.onclick = reset_view;
