@@ -1,0 +1,107 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/utils.css">
+    <link rel="stylesheet" href="./css/backgrounds.css">
+    <link rel="stylesheet" href="./css/animations.css">
+    <link rel="stylesheet" href="./css/style.css">
+    
+    
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  </head>
+  <body>
+    <div class="control_panel">
+        <button class="js-run_test dev-btn">
+            Run test
+        </button>
+      
+      <button class="js-reset dev-btn">
+            Reset
+       </button>
+
+       <button class="js-clear-canvas hide dev-btn">
+        Clear
+      </button>
+
+       <button class="js-test dev-btn">
+            Test
+       </button>
+    </div> <!-- end control panel-->
+    <div id="main_view"></div>
+
+
+    <div class="scoreboard ui-board hide">
+      <span class="js-score"></span>
+    </div>
+
+
+    <div class="lifeboard ui-board hide">
+      <div class="lifeboard-meter1" data-value="100"></div>
+      <img class="lifeboard-avatar hide" src="./img/rocket-icon.png" >
+      &nbsp; x &nbsp;
+      <span class="js-lives"></span>
+    </div>
+
+    <!-- todo: audio elements suffice for now but shd probs use a library -->
+    <audio class="js-backing-track">
+      <source src="./audio/track1.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+
+    <audio class="js-projectile-track-1">
+      <source src="./audio/laser_1.wav" type="audio/wav">
+      Your browser does not support the audio element.
+    </audio>
+    
+
+    <script>
+      const run_test_btn = document.querySelector('.js-run_test');
+      const reset_btn = document.querySelector('.js-reset');
+      const test_btn  = document.querySelector('.js-test');
+      const main_view = document.querySelector('#main_view');
+      const clear_canvas_btn = document.querySelector(".js-clear-canvas");
+
+
+      run_test_btn.addEventListener('click', function() {
+        init_canvas()
+      });
+
+      function init_canvas() { // dont call it 'setup', you'll conflict with p5 defaults and invoke it immediately!
+          let canvas = createCanvas(windowWidth, windowHeight);
+          background(220);
+          canvas.parent('main_view'); 
+          line(15, 25, 70, 90);
+          clear_canvas_btn .classList.remove("hide");
+      }
+
+ 
+
+      reset_btn.onclick = () => {
+        reset_view()
+        clear_canvas_btn.classList.add("hide");
+      }
+
+      clear_canvas_btn.onclick = () => {
+        background(220); // Clear the canvas by setting the background color
+      }
+
+      function reset_view() {
+        main_view.innerHTML = "";
+      }
+
+
+        function draw() {
+          
+          if (mouseIsPressed) {
+            fill(255);
+            ellipse(mouseX, mouseY, 80, 80);
+          } 
+          
+        }
+
+
+
+    </script>
+  </body>
+</html>

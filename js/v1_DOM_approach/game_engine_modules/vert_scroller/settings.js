@@ -1,4 +1,4 @@
-import { random_num, random_rgba, random_hex, rand_arr_select } from '../../utils.js';
+import { random_num, random_rgba, random_hex, rand_arr_select } from '../../../utils.js';
 const MAX_STAR_THRESHOLD = 100;
 const MIN_STAR_SIZE = 1;
 const MAX_STAR_SIZE = 8;

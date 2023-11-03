@@ -1,4 +1,4 @@
-import { random_num, random_rgba, random_hex, rand_arr_select } from '../utils.js';
+import { random_num, random_rgba, random_hex, rand_arr_select } from '../../utils.js';
 import { spawn_quad_shape, spawn_tri, spawn_ellipse  } from './shapes.js';
 import { change_star_speed, select_spawn_point  } from './vert_scroller/environment.js';
 

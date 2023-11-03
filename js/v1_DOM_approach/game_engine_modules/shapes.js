@@ -1,4 +1,4 @@
-import { random_num, random_rgba, random_hex, rand_arr_select } from '../utils.js';
+import { random_num, random_rgba, random_hex, rand_arr_select } from '../../utils.js';
 
 // 4 sided shape
 function spawn_quad_shape(view, color = "", size = [], background = ""){
