@@ -54,7 +54,122 @@
       Your browser does not support the audio element.
     </audio>
     
+    <!-- Temp do this inline to avoid p5/module weirdness -->
 
+       <!-- utils.js -->
+       <script>
+        function random_num(floor, ceil){
+  
+  return Math.floor(Math.random() * (ceil - floor + 1) + floor);
+  
+  } // end random_num
+  
+  // Returns an array of rgba color objects
+  function random_rgba(qty = 1, solid = false){
+  
+  let colors = [];
+  
+  for(let i = 0; i < qty; i++){
+  
+      let color = {};
+  
+      let r = random_num(0, 255);
+      let g = random_num(0, 255);
+      let b = random_num(0, 255);
+      let a = random_num(0, 100) / 100;
+  
+      let val = (!solid) ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgba(${r}, ${g}, ${b})`;
+  
+      colors.push(val);
+  }
+  
+  return colors;
+  
+  }
+  
+  function random_hex(with_hash = false){
+  const letters = '0123456789ABCDEF';
+  let color = with_hash ? '#' : '';
+  
+  for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+  }
+  
+  return color;
+  }
+  
+  function rand_arr_select(arr){
+  const index = Math.floor(Math.random() * arr.length);
+  return arr[index];
+  }
+      </script>
+
+    <!-- settings.js -->
+    <script>
+      const MAX_STAR_THRESHOLD = 100;
+const MIN_STAR_SIZE = 1;
+const MAX_STAR_SIZE = 8;
+const MIN_PLANET_SIZE = 20;
+const MAX_PLANET_SIZE = 50;
+const MAX_STAR_SPARSITY = 100;
+const DEFAULT_SPEED = random_num(100, 500);
+const PLANET_PASSING_THRESHOLD = 3; // out of 100 stars, this is the % chance it'll be a planet instead (3% is the usual setting)
+const STAR_COLORS = [
+  '#FFFFFF', // white
+  '#FFFFCC', // pale yellow
+  '#FFFF99', // light yellow
+  '#FFFF66', // yellow
+  '#E6E6E6', // light gray
+  '#CCCCCC', // gray
+  '#99CCFF', // light blue
+  '#66CCFF', // blue
+  '#FF99CC', // light pink
+  '#FF66CC'  // pink
+];
+
+const PLANET_COLORS = [
+  "#F0A1A1", // Pinkish
+  "#A1F0A1", // Greenish
+  "#A1A1F0", // Bluish
+  "#F0F0A1", // Yellowish
+  "#DAA520"  // Goldenrod
+];
+    </script>
+
+ 
+
+<!-- assorted -->
+<script>
+  function select_spawn_point(view, location = []){
+    let view_width = view.clientWidth;
+    let view_height = view.clientHeight;
+    
+    
+    let x_loc, y_loc;
+    
+    if(location.length == 0){
+      // No location specified, Pick a random place between each end of the view
+      x_loc = random_num(0, view_width);
+      y_loc = random_num(0, view_height);
+      
+    } else {
+      // Assign one of the selected locations
+      x_loc = location[0];
+      y_loc = location[1];
+    }
+
+    let spawn_point = {
+      x_loc: x_loc,
+      y_loc: y_loc
+    };
+    
+    //console.log(spawn_point)
+    
+    return spawn_point;
+  }
+</script>
+
+<!-- main -->
     <script>
       const run_test_btn = document.querySelector('.js-run_test');
       const reset_btn = document.querySelector('.js-reset');
@@ -82,6 +197,20 @@
         clear_canvas_btn.classList.add("hide");
       }
 
+      function spawn_stars(qty){
+        
+        for(let i = 0; i < qty; i++){
+            let location = select_spawn_point(main_view);
+            fill(255);
+            ellipse(location.x_loc, -50, 80, 80);
+        }
+        
+      }
+
+      test_btn.onclick = () => {
+        spawn_stars(300)
+      }
+
       clear_canvas_btn.onclick = () => {
         background(220); // Clear the canvas by setting the background color
       }
@@ -90,8 +219,12 @@
         main_view.innerHTML = "";
       }
 
+    
 
-        function draw() {
+      
+
+
+      function draw() {
           
           if (mouseIsPressed) {
             fill(255);
@@ -118,7 +251,7 @@
           
   
           
-        }
+      }
 
 
         
