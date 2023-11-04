@@ -1,6 +1,7 @@
 function preload() {
   player_avatar = loadImage('./img/rocket-icon-wht.png'); 
   enemy_avatar_1 = loadImage('./img/enemy-rocket-wht.png'); 
+
 }
 
 // dont call this fn 'setup', you'll conflict with p5 defaults and invoke it immediately! using a custom fn name so that it's not immediately invoked 
