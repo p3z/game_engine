@@ -199,17 +199,22 @@
           clear_canvas_btn.classList.remove("hide");
           player_avatar.resize(player_avatar_size, player_avatar_size);
       }
+      const backing_track = document.querySelector('.js-backing-track');
+      const laser1 = document.querySelector('.js-projectile-track-1');
 
 
       run_test_btn.addEventListener('click', function() {
+        backing_track.play();
         init_canvas();
         run_animation = true;
+
       });
  
 
       reset_btn.onclick = () => {
         reset_view()
         clear_canvas_btn.classList.add("hide");
+        stop_audio(backing_track);
       }
 
       function generate_celestial(type){
@@ -356,6 +361,7 @@
             // Draw the player circle with the image background
             image(player_avatar, imageX, imageY, player_avatar_size, player_avatar_size);
             animate_projectiles(projectiles);
+            
         }
           
       }
@@ -377,28 +383,17 @@
 
       function mousePressed() {
         spawn_projectile("rgba(255, 255, 0, 0.5)")
+
+        if(player_1_spawned){
+          laser1.play();
+        }
+        
       }
-
-
-       //ellipse(mouseX, mouseY, 80, 80);
-
-            // squares
-            // let side = 100; // Side length of the square
-            // rect(mouseX, mouseY, side, side);
-            
-            // triangles
-            //let side = 50;
-
-            // Calculate the coordinates of the triangle's vertices around the mouse position
-            // let x1 = mouseX; // Vertex 1
-            // let y1 = mouseY - (sqrt(3) / 3) * side;
-            // let x2 = mouseX - side / 2; // Vertex 2
-            // let y2 = mouseY + (sqrt(3) / 6) * side;
-            // let x3 = mouseX + side / 2; // Vertex 3
-            // let y3 = mouseY + (sqrt(3) / 6) * side;
-
-            // // Draw the equilateral triangle
-            // triangle(x1, y1, x2, y2, x3, y3);
+      
+      function stop_audio(audio){
+        audio.pause();
+        audio.currentTime = 0;
+      }
 
         
 
