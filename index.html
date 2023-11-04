@@ -181,17 +181,16 @@
       let run_animation = true;
       let stars = [];
       let planets = [];
+      let projectiles = [];
       let player_avatar;
       let player_1_spawned = false;
       let playerRadius = 25;
       let playerX, playerY;
       
 
-
-      run_test_btn.addEventListener('click', function() {
-        init_canvas();
-        run_animation = true;
-      });
+      function preload() {
+        player_avatar = loadImage('./img/rocket-icon-wht.png');          
+      }
 
       function init_canvas() { // dont call this fn 'setup', you'll conflict with p5 defaults and invoke it immediately!
           let canvas = createCanvas(windowWidth, windowHeight);          
@@ -201,6 +200,11 @@
           player_avatar.resize(player_avatar_size, player_avatar_size);
       }
 
+
+      run_test_btn.addEventListener('click', function() {
+        init_canvas();
+        run_animation = true;
+      });
  
 
       reset_btn.onclick = () => {
@@ -260,9 +264,27 @@
 
         }
 
-      function preload() {
-        player_avatar = loadImage('./img/rocket-icon-wht.png');          
+      function animate_projectiles(projectiles){
+        for (let i = projectiles.length - 1; i >= 0; i--) {
+
+            let shot = projectiles[i];
+            let fire_origin = shot.y - player_avatar.height;
+
+            fill(shot.color); // Set the fill color to the celestial's color
+            noStroke(); 
+            ellipse(shot.x, fire_origin, shot.width, shot.height);
+
+            // Move the shot upwards
+            shot.y -= 15; // Adjust the speed as needed
+
+            // Remove circles that have moved out of the canvas
+            if (shot.y + shot.diameter / 2 < 0) {
+              projectiles.splice(i, 1);
+            }
+        }
       }
+
+     
         
 
       test_btn.onclick = () => {
@@ -274,6 +296,7 @@
         stars = [];
         planets = [];
         run_animation = false;
+        player_1_spawned = false;
       }
 
       function reset_view() {
@@ -332,9 +355,28 @@
 
             // Draw the player circle with the image background
             image(player_avatar, imageX, imageY, player_avatar_size, player_avatar_size);
-              
+            animate_projectiles(projectiles);
         }
           
+      }
+
+      function spawn_projectile(color){
+        // Create a new circle at the mouse click location
+        let shot = {
+          x: mouseX,
+          y: mouseY,
+          height: 80,
+          width: 5,
+          color: color
+        };
+
+        // Add the new circle to the array
+        projectiles.push(shot);
+
+      }
+
+      function mousePressed() {
+        spawn_projectile("rgba(255, 255, 0, 0.5)")
       }
 
 
