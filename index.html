@@ -186,6 +186,18 @@
       let player_1_spawned = false;
       let playerRadius = 25;
       let playerX, playerY;
+
+
+      let bg_color_index1 = 0;
+      let bg_color_index2 = 1;
+      let lerp_amount = 0;
+      const SPACE_COLORS = [
+        '#000000', '#001f3f', '#520652', '#074d4d'
+      ];
+
+      let test = [
+        'pink', 'blue'
+      ]
       
 
       function preload() {
@@ -249,7 +261,7 @@
 
       }
 
-      function animate_celestials(celestials,){   
+      function animate_celestials(celestials){   
 
           for (let i = celestials.length - 1; i >= 0; i--) {
 
@@ -318,8 +330,18 @@
 
       function draw() {
           
-        background(0); // Clear the background
+        //background(0); // Clear the background
+        transition_background(lerp_amount, SPACE_COLORS);
+        
+        lerp_amount += 0.005; // Adjust the step for smoother transitions
 
+        if (lerp_amount >= 1) {
+          lerp_amount = 0; // reset it
+          bg_color_index1 = (bg_color_index1 + 1) % SPACE_COLORS.length;
+          bg_color_index2 = (bg_color_index1 + 1) % SPACE_COLORS.length;
+        }
+
+      
         if(run_animation){
 
           let sparsity = random_num(0, MAX_STAR_SPARSITY); // decide if we should spawn a star this frame
@@ -352,7 +374,7 @@
             let imageX = mouseX - player_avatar.width / 2;
             let imageY = mouseY - player_avatar.height / 2;
 
-            // Draw a border around the player image
+            // Draw a border around the player image (handy for troubleshooting)
             // stroke(255, 0, 0); // Red border color
             // strokeWeight(2); // Border width
             // noFill(); // No fill inside the border
@@ -364,6 +386,8 @@
             
         }
           
+
+        
       }
 
       function spawn_projectile(color){
@@ -395,6 +419,17 @@
         audio.currentTime = 0;
       }
 
+     
+
+      function transition_background(lerp_amount, colors = []){
+
+        let c1 = color(colors[bg_color_index1]);
+        let c2 = color(colors[bg_color_index2]);        
+        let lerped_color = lerpColor(c1, c2, lerp_amount);
+
+        background(lerped_color);
+        
+      }
         
 
 
