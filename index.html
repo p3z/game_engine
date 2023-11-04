@@ -198,36 +198,52 @@
         clear_canvas_btn.classList.add("hide");
       }
 
-      function generate_star(){
+      function generate_celestial(type){
 
-        let star_size = random_num(MIN_STAR_SIZE, MAX_STAR_SIZE);        
+        let size, potential_cols;
+
+        switch(type){
+          case 'planet':
+          size = random_num(MIN_PLANET_SIZE, MAX_PLANET_SIZE);
+          potential_cols = PLANET_COLORS;    
+          break;
+
+          case 'star':
+          default: 
+          size = random_num(MIN_STAR_SIZE, MAX_STAR_SIZE);
+          potential_cols = STAR_COLORS;        
+
+        }
+
         
-        let new_star = {
+        
+        let celestial_obj = {
             x: random(width), 
-            y: -star_size, // spawn it above the canvas
-            size: star_size,
+            y: -size, // spawn it above the canvas
+            size: size,
             speed: random_num(0, 10),
-            color: rand_arr_select(STAR_COLORS)
+            color: rand_arr_select(potential_cols)         
           };
+          
 
-          return new_star;
+          return celestial_obj;
 
       }
 
-      function animate_stars(){   
+      function animate_celestials(celestials,){   
 
-          for (let i = stars.length - 1; i >= 0; i--) {
+          for (let i = celestials.length - 1; i >= 0; i--) {
 
-            let cur_star = stars[i];            
-            cur_star.y += cur_star.speed; // Move the star downwards
+            let current = celestials[i];            
+            current.y += current.speed; // Move the celestial downwards
 
-            fill(cur_star.color); // Set the fill color to the star's color
+            fill(current.color); // Set the fill color to the celestial's color
             noStroke();            
-            ellipse(cur_star.x, cur_star.y, cur_star.size, cur_star.size); // Draw the star
+            ellipse(current.x, current.y, current.size, current.size); // Draw the celestial
 
-            // Remove stars that have moved off the canvas
-            if (cur_star.y > height + cur_star.size / 2) {
-              stars.splice(i, 1);
+            // Remove celestials that have moved off the canvas
+            if (current.y > height + current.size / 2) {
+              celestials.splice(i, 1);
             }
 
           }
@@ -264,19 +280,25 @@
 
         let sparsity = random_num(0, MAX_STAR_SPARSITY); // decide if we should spawn a star this frame
 
-        if (sparsity < get_percentage(MAX_STAR_SPARSITY, 50)) {
-          
-          // let star_qty = random_num(0 ,3); // if we want to create more than one star per frame
+        switch(true){
+          case (sparsity < get_percentage(MAX_STAR_SPARSITY, 1)): // 10% chance
+            let new_planet = generate_celestial('planet');
+            planets.push(new_planet);
+            break;
 
-          // for(let i = 0; i < star_qty; i++){
-            let new_star = generate_star();
-            stars.push(new_star);
-          //}
-        
-          
+          case (sparsity < get_percentage(MAX_STAR_SPARSITY, 50)): // 50% chance
+            // let star_qty = random_num(0 ,3); // if we want to create more than one star per frame
+
+            // for(let i = 0; i < star_qty; i++){
+              let new_star = generate_celestial();
+              stars.push(new_star);
+            //}
+            break;
         }
         
-        animate_stars();
+        
+        animate_celestials(stars);
+        animate_celestials(planets);
     
         
   
