@@ -177,6 +177,15 @@
       const main_view = document.querySelector('#main_view');
       const clear_canvas_btn = document.querySelector(".js-clear-canvas");
       const origin = -100; // above the top of the canvas so things can animate in
+      const player_avatar_size = 50;
+      let run_animation = true;
+      let stars = [];
+      let planets = [];
+      let player_avatar;
+      let player_1_spawned = false;
+      let playerRadius = 25;
+      let playerX, playerY;
+      
 
 
       run_test_btn.addEventListener('click', function() {
@@ -184,12 +193,12 @@
         run_animation = true;
       });
 
-      function init_canvas() { // dont call it 'setup', you'll conflict with p5 defaults and invoke it immediately!
+      function init_canvas() { // dont call this fn 'setup', you'll conflict with p5 defaults and invoke it immediately!
           let canvas = createCanvas(windowWidth, windowHeight);          
           background(0);
-          canvas.parent('main_view'); 
-          
+          canvas.parent('main_view');          
           clear_canvas_btn.classList.remove("hide");
+          player_avatar.resize(player_avatar_size, player_avatar_size);
       }
 
  
@@ -250,10 +259,14 @@
           }
 
         }
+
+      function preload() {
+        player_avatar = loadImage('./img/rocket-icon-wht.png');          
+      }
         
-      
+
       test_btn.onclick = () => {
-        
+        player_1_spawned = !player_1_spawned;
       }
 
       clear_canvas_btn.onclick = () => {
@@ -268,9 +281,6 @@
       }
 
   
-      let run_animation = true;
-      let stars = [];
-      let planets = [];
       
 
       function get_percentage(num, percentage){
@@ -308,6 +318,22 @@
       
         }
   
+        if (player_1_spawned) {
+
+            // Calculate avatar pos, centered on the cursor
+            let imageX = mouseX - player_avatar.width / 2;
+            let imageY = mouseY - player_avatar.height / 2;
+
+            // Draw a border around the player image
+            // stroke(255, 0, 0); // Red border color
+            // strokeWeight(2); // Border width
+            // noFill(); // No fill inside the border
+            // rect(imageX, imageY, player_avatar.width, player_avatar.height);
+
+            // Draw the player circle with the image background
+            image(player_avatar, imageX, imageY, player_avatar_size, player_avatar_size);
+              
+        }
           
       }
 
