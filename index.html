@@ -180,7 +180,8 @@
 
 
       run_test_btn.addEventListener('click', function() {
-        init_canvas()
+        init_canvas();
+        run_animation = true;
       });
 
       function init_canvas() { // dont call it 'setup', you'll conflict with p5 defaults and invoke it immediately!
@@ -257,6 +258,9 @@
 
       clear_canvas_btn.onclick = () => {
         background(0); // Clear the canvas by setting the background color
+        stars = [];
+        planets = [];
+        run_animation = false;
       }
 
       function reset_view() {
@@ -264,7 +268,7 @@
       }
 
   
-
+      let run_animation = true;
       let stars = [];
       let planets = [];
       
@@ -278,29 +282,31 @@
           
         background(0); // Clear the background
 
-        let sparsity = random_num(0, MAX_STAR_SPARSITY); // decide if we should spawn a star this frame
+        if(run_animation){
 
-        switch(true){
-          case (sparsity < get_percentage(MAX_STAR_SPARSITY, 1)): // 10% chance
-            let new_planet = generate_celestial('planet');
-            planets.push(new_planet);
-            break;
+          let sparsity = random_num(0, MAX_STAR_SPARSITY); // decide if we should spawn a star this frame
 
-          case (sparsity < get_percentage(MAX_STAR_SPARSITY, 50)): // 50% chance
-            // let star_qty = random_num(0 ,3); // if we want to create more than one star per frame
+          switch(true){
+            case (sparsity < get_percentage(MAX_STAR_SPARSITY, 1)): // 1% chance
+              let new_planet = generate_celestial('planet');
+              planets.push(new_planet);
+              break;
 
-            // for(let i = 0; i < star_qty; i++){
-              let new_star = generate_celestial();
-              stars.push(new_star);
-            //}
-            break;
+            case (sparsity < get_percentage(MAX_STAR_SPARSITY, 50)): // 50% chance
+              // let star_qty = random_num(0 ,3); // if we want to create more than one star per frame
+
+              // for(let i = 0; i < star_qty; i++){
+                let new_star = generate_celestial();
+                stars.push(new_star);
+              //}
+              break;
+          }
+          
+          
+          animate_celestials(stars);
+          animate_celestials(planets);
+      
         }
-        
-        
-        animate_celestials(stars);
-        animate_celestials(planets);
-    
-        
   
           
       }
