@@ -43,5 +43,43 @@ function rand_arr_select(arr){
     return arr[index];
 }
 
-export { random_num, random_rgba, random_hex, rand_arr_select };
+function get_percentage(num, percentage){
+    return num / 100 * percentage;
+}
 
+function reset_view(view) {
+    view.innerHTML = "";
+}
+
+function stop_audio(audio){
+    audio.pause();
+    audio.currentTime = 0;
+}
+
+function select_spawn_point(view, location = []){
+    let view_width = view.clientWidth;
+    let view_height = view.clientHeight;
+    
+    
+    let x_loc, y_loc;
+    
+    if(location.length == 0){
+      // No location specified, Pick a random place between each end of the view
+      x_loc = random_num(0, view_width);
+      y_loc = random_num(0, view_height);
+      
+    } else {
+      // Assign one of the selected locations
+      x_loc = location[0];
+      y_loc = location[1];
+    }
+  
+    let spawn_point = {
+      x_loc: x_loc,
+      y_loc: y_loc
+    };
+    
+    //console.log(spawn_point)
+    
+    return spawn_point;
+  }
