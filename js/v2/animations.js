@@ -20,20 +20,36 @@ function animate_celestials(celestials){
 
 }
 
+function detect_enemy_collision(shot, i){
+  for (let j = enemies.length - 1; j >= 0; j--) {
+    let enemy = enemies[j];
+
+    // Check for collision between the projectile and the enemy using collideRectRect
+    if (collideRectRect(shot.x, shot.y, shot.width, shot.height, enemy.x, enemy.y, enemy.size, enemy.size)) {
+      // Collision occurred
+      console.log("Hit enemy!");
+      projectiles.splice(i, 1); // Remove the projectile
+      enemies.splice(j, 1); // Remove the enemy
+      break; // Exit the inner loop, assuming one projectile can hit one enemy only
+    }
+  }
+}
+
 function animate_projectiles(projectiles){
   for (let i = projectiles.length - 1; i >= 0; i--) {
 
       let shot = projectiles[i];
       let fire_origin = shot.y - player_avatar.height;
 
-      fill(shot.color); // Set the fill color to the celestial's color
+      fill(shot.color); // Set the fill color to the projectile's color
       noStroke(); 
-      ellipse(shot.x, fire_origin, shot.width, shot.height);
+      rect(shot.x, fire_origin, shot.width, shot.height);
 
       // Move the shot upwards
       shot.y -= 15; // Adjust the speed as needed
+      detect_enemy_collision(shot, i);
 
-      // Remove circles that have moved out of the canvas
+      // Remove projectiles that have moved out of the canvas
       if (shot.y + shot.diameter / 2 < 0) {
         projectiles.splice(i, 1);
       }
@@ -46,9 +62,9 @@ function animate_enemies(enemies){
     let enemy = enemies[i];
     let enemy_origin = enemy.y - player_avatar.height;
 
-    fill("red"); // Set the fill color to the celestial's color
+    //fill("red"); // Set the fill color to the enemy's color
     noStroke(); 
-    //ellipse(enemy.x, enemy_origin, enemy.size, enemy.size);
+    //rect(enemy.x, enemy.y, enemy.size, enemy.size); // bounding box
     image(enemy_avatar_1, enemy.x, enemy.y, enemy.size, enemy.size);
         
     enemy.y += enemy.speed; // Adjust the speed as needed

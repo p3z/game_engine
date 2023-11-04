@@ -1,5 +1,4 @@
 const origin = -100; // above the top of the canvas so things can animate in
-const player_avatar_size = 50;
 let run_animation = true; // a flag to isolate whether animations are runing or not
 
 let player_avatar;
@@ -73,7 +72,7 @@ function generate_enemy(size){
       x: random(width), 
       y: -size, // spawn it above the canvas
       size: size,
-      speed: random_num(0, 10),
+      speed: random_num(5, 8),
       //color: rand_arr_select(potential_cols)         
     };
   

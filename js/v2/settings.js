@@ -5,6 +5,7 @@ const MIN_PLANET_SIZE = 20;
 const MAX_PLANET_SIZE = 50;
 const MAX_STAR_SPARSITY = 100;
 const DEFAULT_SPEED = random_num(100, 500);
+const BASIC_AVATAR_SIZE = 50;
 const PLANET_PASSING_THRESHOLD = 3; // out of 100 stars, this is the % chance it'll be a planet instead (3% is the usual setting)
 const STAR_COLORS = [
   '#FFFFFF', // white

@@ -9,7 +9,7 @@ function init_canvas() {
     background(0);
     canvas.parent('main_view');          
     clear_canvas_btn.classList.remove("hide");
-    player_avatar.resize(player_avatar_size, player_avatar_size);
+    player_avatar.resize(BASIC_AVATAR_SIZE, BASIC_AVATAR_SIZE);
 }
 
 // console.log("Spawn interval: ")
@@ -69,14 +69,14 @@ function draw() {
       // rect(imageX, imageY, player_avatar.width, player_avatar.height);
 
       // Draw the player circle with the image background
-      image(player_avatar, imageX, imageY, player_avatar_size, player_avatar_size);
+      image(player_avatar, imageX, imageY, BASIC_AVATAR_SIZE, BASIC_AVATAR_SIZE);
       animate_projectiles(projectiles);
       
       //let seconds_past = frameCount / 60;
 
       // Check if it's time to spawn a new enemy
       if(frameCount % enemy_spawn_interval == 0){
-        let enemy = generate_enemy(50);
+        let enemy = generate_enemy(BASIC_AVATAR_SIZE);
         enemies.push(enemy);
         enemy_last_spawned = frameCount;
         
