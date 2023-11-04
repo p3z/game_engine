@@ -41,7 +41,7 @@ function animate_projectiles(projectiles){
   for (let i = projectiles.length - 1; i >= 0; i--) {
 
       let shot = projectiles[i];
-      let fire_origin = shot.y - player_avatar.height;
+      let fire_origin = shot.y - player_avatar.height - 10;
 
       fill(shot.color); // Set the fill color to the projectile's color
       noStroke(); 
