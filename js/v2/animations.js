@@ -40,6 +40,27 @@ function animate_projectiles(projectiles){
   }
 }
 
+function animate_enemies(enemies){
+  for (let i = enemies.length - 1; i >= 0; i--) {
+
+    let enemy = enemies[i];
+    let enemy_origin = enemy.y - player_avatar.height;
+
+    fill("red"); // Set the fill color to the celestial's color
+    noStroke(); 
+    //ellipse(enemy.x, enemy_origin, enemy.size, enemy.size);
+    image(enemy_avatar_1, enemy.x, enemy.y, enemy.size, enemy.size);
+        
+    enemy.y += enemy.speed; // Adjust the speed as needed
+
+
+    // Remove enemies that have moved out of the canvas
+    if (enemy.y + enemy.diameter / 2 < 0) {
+      enemies.splice(i, 1);
+    }
+}
+}
+
 function transition_background(lerp_amount, colors = []){
 
   let c1 = color(colors[bg_color_index1]);

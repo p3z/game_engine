@@ -5,6 +5,11 @@ let run_animation = true; // a flag to isolate whether animations are runing or 
 let player_avatar;
 let player_1_spawned = false; // a flag to determine if the player is currently on the canvas
 
+let enemy_avatar_1;
+let enemy_last_spawned = 0;
+let enemy_spawn_interval =  60 * 3; // 60 frames per second (p5 default) * 3 seconds
+
+
 let bg_color_index1 = 0;
 let bg_color_index2 = 1;
 let lerp_amount = 0;
@@ -13,6 +18,7 @@ let lerp_amount = 0;
 let stars = [];
 let planets = [];
 let projectiles = [];
+let enemies = [];
 
 function generate_celestial(type){
 
@@ -58,5 +64,22 @@ let shot = {
 
 // Add the new circle to the array
 projectiles.push(shot);
+
+}
+
+function generate_enemy(size){
+
+    let enemy_obj = {
+      x: random(width), 
+      y: -size, // spawn it above the canvas
+      size: size,
+      speed: random_num(0, 10),
+      //color: rand_arr_select(potential_cols)         
+    };
+  
+    //console.log(enemy_obj)
+
+  return enemy_obj;
+  
 
 }

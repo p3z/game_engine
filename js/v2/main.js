@@ -1,5 +1,6 @@
 function preload() {
-  player_avatar = loadImage('./img/rocket-icon-wht.png');          
+  player_avatar = loadImage('./img/rocket-icon-wht.png'); 
+  enemy_avatar_1 = loadImage('./img/enemy-rocket-wht.png'); 
 }
 
 // dont call this fn 'setup', you'll conflict with p5 defaults and invoke it immediately! using a custom fn name so that it's not immediately invoked 
@@ -11,7 +12,8 @@ function init_canvas() {
     player_avatar.resize(player_avatar_size, player_avatar_size);
 }
 
-
+// console.log("Spawn interval: ")
+// console.log(enemy_spawn_interval)
 
 function draw() {
     
@@ -50,6 +52,7 @@ function draw() {
     
     animate_celestials(stars);
     animate_celestials(planets);
+    animate_enemies(enemies);
 
   }
 
@@ -69,7 +72,22 @@ function draw() {
       image(player_avatar, imageX, imageY, player_avatar_size, player_avatar_size);
       animate_projectiles(projectiles);
       
+      //let seconds_past = frameCount / 60;
+
+      // Check if it's time to spawn a new enemy
+      if(frameCount % enemy_spawn_interval == 0){
+        let enemy = generate_enemy(50);
+        enemies.push(enemy);
+        enemy_last_spawned = frameCount;
+        
+      }
+
+      
+
+      
   }
+
+  
     
 
   
