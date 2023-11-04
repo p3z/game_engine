@@ -67,23 +67,23 @@
   // Returns an array of rgba color objects
   function random_rgba(qty = 1, solid = false){
   
-  let colors = [];
-  
-  for(let i = 0; i < qty; i++){
-  
-      let color = {};
-  
-      let r = random_num(0, 255);
-      let g = random_num(0, 255);
-      let b = random_num(0, 255);
-      let a = random_num(0, 100) / 100;
-  
-      let val = (!solid) ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgba(${r}, ${g}, ${b})`;
-  
-      colors.push(val);
-  }
-  
-  return colors;
+    let colors = [];
+    
+    for(let i = 0; i < qty; i++){
+    
+        let color = {};
+    
+        let r = random_num(0, 255);
+        let g = random_num(0, 255);
+        let b = random_num(0, 255);
+        let a = random_num(0, 100) / 100;
+    
+        let val = (!solid) ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgba(${r}, ${g}, ${b})`;
+    
+        colors.push(val);
+    }
+    
+    return colors;
   
   }
   
@@ -107,33 +107,33 @@
     <!-- settings.js -->
     <script>
       const MAX_STAR_THRESHOLD = 100;
-const MIN_STAR_SIZE = 1;
-const MAX_STAR_SIZE = 8;
-const MIN_PLANET_SIZE = 20;
-const MAX_PLANET_SIZE = 50;
-const MAX_STAR_SPARSITY = 100;
-const DEFAULT_SPEED = random_num(100, 500);
-const PLANET_PASSING_THRESHOLD = 3; // out of 100 stars, this is the % chance it'll be a planet instead (3% is the usual setting)
-const STAR_COLORS = [
-  '#FFFFFF', // white
-  '#FFFFCC', // pale yellow
-  '#FFFF99', // light yellow
-  '#FFFF66', // yellow
-  '#E6E6E6', // light gray
-  '#CCCCCC', // gray
-  '#99CCFF', // light blue
-  '#66CCFF', // blue
-  '#FF99CC', // light pink
-  '#FF66CC'  // pink
-];
+      const MIN_STAR_SIZE = 1;
+      const MAX_STAR_SIZE = 8;
+      const MIN_PLANET_SIZE = 20;
+      const MAX_PLANET_SIZE = 50;
+      const MAX_STAR_SPARSITY = 100;
+      const DEFAULT_SPEED = random_num(100, 500);
+      const PLANET_PASSING_THRESHOLD = 3; // out of 100 stars, this is the % chance it'll be a planet instead (3% is the usual setting)
+      const STAR_COLORS = [
+        '#FFFFFF', // white
+        '#FFFFCC', // pale yellow
+        '#FFFF99', // light yellow
+        '#FFFF66', // yellow
+        '#E6E6E6', // light gray
+        '#CCCCCC', // gray
+        '#99CCFF', // light blue
+        '#66CCFF', // blue
+        '#FF99CC', // light pink
+        '#FF66CC'  // pink
+      ];
 
-const PLANET_COLORS = [
-  "#F0A1A1", // Pinkish
-  "#A1F0A1", // Greenish
-  "#A1A1F0", // Bluish
-  "#F0F0A1", // Yellowish
-  "#DAA520"  // Goldenrod
-];
+      const PLANET_COLORS = [
+        "#F0A1A1", // Pinkish
+        "#A1F0A1", // Greenish
+        "#A1A1F0", // Bluish
+        "#F0F0A1", // Yellowish
+        "#DAA520"  // Goldenrod
+      ];
     </script>
 
  
@@ -176,6 +176,7 @@ const PLANET_COLORS = [
       const test_btn  = document.querySelector('.js-test');
       const main_view = document.querySelector('#main_view');
       const clear_canvas_btn = document.querySelector(".js-clear-canvas");
+      const origin = -100; // above the top of the canvas so things can animate in
 
 
       run_test_btn.addEventListener('click', function() {
@@ -183,11 +184,11 @@ const PLANET_COLORS = [
       });
 
       function init_canvas() { // dont call it 'setup', you'll conflict with p5 defaults and invoke it immediately!
-          let canvas = createCanvas(windowWidth, windowHeight);
-          background(220);
+          let canvas = createCanvas(windowWidth, windowHeight);          
+          background(0);
           canvas.parent('main_view'); 
-          line(15, 25, 70, 90);
-          clear_canvas_btn .classList.remove("hide");
+          
+          clear_canvas_btn.classList.remove("hide");
       }
 
  
@@ -197,45 +198,100 @@ const PLANET_COLORS = [
         clear_canvas_btn.classList.add("hide");
       }
 
-      function spawn_stars(qty){
+      function generate_star(){
+
+        let star_size = random_num(MIN_STAR_SIZE, MAX_STAR_SIZE);        
         
-        for(let i = 0; i < qty; i++){
-            let location = select_spawn_point(main_view);
-            fill(255);
-            ellipse(location.x_loc, -50, 80, 80);
-        }
-        
+        let new_star = {
+            x: random(width), 
+            y: -star_size, // spawn it above the canvas
+            size: star_size,
+            speed: random_num(0, 10),
+            color: rand_arr_select(STAR_COLORS)
+          };
+
+          return new_star;
+
       }
 
+      function animate_stars(){   
+
+          for (let i = stars.length - 1; i >= 0; i--) {
+
+            let cur_star = stars[i];            
+            cur_star.y += cur_star.speed; // Move the star downwards
+
+            fill(cur_star.color); // Set the fill color to the star's color
+            noStroke();            
+            ellipse(cur_star.x, cur_star.y, cur_star.size, cur_star.size); // Draw the star
+
+            // Remove stars that have moved off the canvas
+            if (cur_star.y > height + cur_star.size / 2) {
+              stars.splice(i, 1);
+            }
+
+          }
+
+        }
+        
+      
       test_btn.onclick = () => {
-        spawn_stars(300)
+        
       }
 
       clear_canvas_btn.onclick = () => {
-        background(220); // Clear the canvas by setting the background color
+        background(0); // Clear the canvas by setting the background color
       }
 
       function reset_view() {
         main_view.innerHTML = "";
       }
 
-    
+  
 
+      let stars = [];
+      let planets = [];
       
 
+      function get_percentage(num, percentage){
+        return num / 100 * percentage;
+      }
+      
 
       function draw() {
           
-          if (mouseIsPressed) {
-            fill(255);
-            //ellipse(mouseX, mouseY, 80, 80);
+        background(0); // Clear the background
+
+        let sparsity = random_num(0, MAX_STAR_SPARSITY); // decide if we should spawn a star this frame
+
+        if (sparsity < get_percentage(MAX_STAR_SPARSITY, 50)) {
+          
+          // let star_qty = random_num(0 ,3); // if we want to create more than one star per frame
+
+          // for(let i = 0; i < star_qty; i++){
+            let new_star = generate_star();
+            stars.push(new_star);
+          //}
+        
+          
+        }
+        
+        animate_stars();
+    
+        
+  
+          
+      }
+
+
+       //ellipse(mouseX, mouseY, 80, 80);
 
             // squares
             // let side = 100; // Side length of the square
             // rect(mouseX, mouseY, side, side);
             
             // triangles
-            let side = 50;
+            //let side = 50;
 
             // Calculate the coordinates of the triangle's vertices around the mouse position
             // let x1 = mouseX; // Vertex 1
@@ -247,12 +303,6 @@ const PLANET_COLORS = [
 
             // // Draw the equilateral triangle
             // triangle(x1, y1, x2, y2, x3, y3);
-          } 
-          
-  
-          
-      }
-
 
         
 
