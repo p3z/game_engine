@@ -1,8 +1,8 @@
-run_test_btn.addEventListener('click', function() {
+run_test_btn.onclick = () => {
     backing_track.play();
     init_canvas();
     run_animation = true;
-  });
+  };
 
 
   reset_btn.onclick = () => {

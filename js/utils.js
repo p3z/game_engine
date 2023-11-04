@@ -82,4 +82,4 @@ function select_spawn_point(view, location = []){
     //console.log(spawn_point)
     
     return spawn_point;
-  }
+}

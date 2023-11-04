@@ -15,6 +15,19 @@ Upon completion, use the engine to create a game in each of these genres.
 - first-person perspective
 - third-person perspective
 
+## JS Map
+- utils.js: generic functions that could be used anywhere
+v2: 
+    - animations: 
+    - DOM_elements: a place to register everything in the DOM that is interactable
+    - evt_handlers: a place to define event-based functionality
+    - settings: a place to store things that don't typically change
+    - state: a place to store state variables that change across the running of the program
+    - main: custom p5 logic is specified here that may invoke functions from everywhere else
+
+
 ## Thinking out loud (a coder's log)
 03/11/23
 - Using DOM elements isn't going to scale. Performance is already taking a hit with imposed limits. Switch to making use of the canvas API via a library
+04/11/23
+- Decided on P5, replicated majority of existing functionality making use of this

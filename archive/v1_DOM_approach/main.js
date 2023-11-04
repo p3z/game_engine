@@ -1,4 +1,4 @@
-import { random_num, random_rgba, random_hex, rand_arr_select } from '../utils.js';
+import { random_num, random_rgba, random_hex, rand_arr_select } from '../../js/utils.js';
 import { spawn_quad_shape, spawn_tri, spawn_ellipse  } from './game_engine_modules/shapes.js';
 import { spawn_test_player, set_element_state, DEFAULT_PLAYER_LIVES, DEFAULT_PLAYER_SCORE  } from './game_engine_modules/players.js';
 import { create_stars, change_star_speed, create_planet, select_spawn_point  } from './game_engine_modules/vert_scroller/environment.js';

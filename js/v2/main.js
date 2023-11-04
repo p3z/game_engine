@@ -78,9 +78,9 @@ function draw() {
 
 
 function mousePressed() {
-  spawn_projectile("rgba(255, 255, 0, 0.5)")
-
+  
   if(player_1_spawned){
+    generate_projectile("rgba(255, 255, 0, 0.5)");
     laser1.play();
   }
   
