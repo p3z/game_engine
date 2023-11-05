@@ -61,22 +61,47 @@ function animate_projectiles(projectiles){
 function animate_enemies(enemies){
   for (let i = enemies.length - 1; i >= 0; i--) {
 
-    let enemy = enemies[i];
-    let enemy_origin = enemy.y - player_avatar.height;
+      let enemy = enemies[i];
+      let enemy_origin = enemy.y - player_avatar.height;
 
-    //fill("red"); // Set the fill color to the enemy's color
-    noStroke(); 
-    //rect(enemy.x, enemy.y, enemy.size, enemy.size); // bounding box
-    image(enemy_avatar_1, enemy.x, enemy.y, enemy.size, enemy.size);
-        
-    enemy.y += enemy.speed; // Adjust the speed as needed
+      //fill("red"); // Set the fill color to the enemy's color
+      noStroke(); 
+      //rect(enemy.x, enemy.y, enemy.size, enemy.size); // bounding box
+      image(enemy_avatar_1, enemy.x, enemy.y, enemy.size, enemy.size);
+          
+      enemy.y += enemy.speed; // Adjust the speed as needed
 
 
-    // Remove enemies that have moved out of the canvas
-    if (enemy.y + enemy.diameter / 2 < 0) {
-      enemies.splice(i, 1);
-    }
+      // Remove enemies that have moved out of the canvas
+      if (enemy.y + enemy.diameter / 2 < 0) {
+        enemies.splice(i, 1);
+      }
+  }
 }
+
+function animate_messages(text_arr){
+
+  for (let i = text_arr.length - 1; i >= 0; i--) {
+    let msg = text_arr[i];
+
+    if (frameCount >= msg.delay) {      
+      
+      textSize(msg.size);
+      fill(msg.color);
+      stroke(0);
+      strokeWeight(4);
+      text(msg.text, msg.x, msg.y);
+          
+      msg.y += msg.speed; // Adjust the speed as needed
+
+      // Remove msgs that have moved out of the canvas
+       if (msg.y  >= canvas.height) {
+         text_arr.splice(i, 1);
+       }
+    }
+
+      
+  }
 }
 
 function transition_background(lerp_amount, colors = []){
@@ -88,4 +113,5 @@ function transition_background(lerp_amount, colors = []){
   background(lerped_color);
   
 }
+
 

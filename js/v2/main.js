@@ -6,28 +6,30 @@ function preload() {
 
 // dont call this fn 'setup', you'll conflict with p5 defaults and invoke it immediately! using a custom fn name so that it's not immediately invoked 
 function init_canvas() { 
-    let canvas = createCanvas(windowWidth, windowHeight);          
+    let canvas = createCanvas(windowWidth, windowHeight);      
     background(0);
     canvas.parent('main_view');          
     clear_canvas_btn.classList.remove("hide");
     player_avatar.resize(BASIC_AVATAR_SIZE, BASIC_AVATAR_SIZE);
+    
 }
 
-// console.log("Spawn interval: ")
-// console.log(enemy_spawn_interval)
-
 function draw() {
-    
-  //background(0); // Clear the background
-  transition_background(lerp_amount, SPACE_COLORS);
   
-  lerp_amount += 0.005; // Adjust the step for smoother transitions
+  if(use_bg_transition){
+    //background(0); // Clear the background
+    transition_background(lerp_amount, SPACE_COLORS);
+      
+    lerp_amount += 0.005; // Adjust the step for smoother transitions
 
-  if (lerp_amount >= 1) {
-    lerp_amount = 0; // reset it
-    bg_color_index1 = (bg_color_index1 + 1) % SPACE_COLORS.length;
-    bg_color_index2 = (bg_color_index1 + 1) % SPACE_COLORS.length;
+    if (lerp_amount >= 1) {
+      lerp_amount = 0; // reset it
+      bg_color_index1 = (bg_color_index1 + 1) % SPACE_COLORS.length;
+      bg_color_index2 = (bg_color_index1 + 1) % SPACE_COLORS.length;
+    }
   }
+    
+  
 
 
   if(run_animation){
@@ -54,10 +56,16 @@ function draw() {
     animate_celestials(stars);
     animate_celestials(planets);
     animate_enemies(enemies);
+    
 
   }
 
   if (player_1_spawned) {
+
+    if(mouseIsPressed){
+      generate_projectile("rgba(255, 255, 0, 0.5)");
+      laser1.play();
+    }
 
       // Calculate avatar pos, centered on the cursor
       let imageX = mouseX - player_avatar.width / 2;
@@ -71,7 +79,8 @@ function draw() {
 
       // Draw the player circle with the image background
       image(player_avatar, imageX, imageY, BASIC_AVATAR_SIZE, BASIC_AVATAR_SIZE);
-      animate_projectiles(projectiles);
+      
+      
       
       //let seconds_past = frameCount / 60;
 
@@ -83,26 +92,15 @@ function draw() {
         
       }
 
-      
+      animate_messages(message_obj);
+      animate_projectiles(projectiles);
 
-      
-  }
-
-  
     
-
-  
-}
-
-
-
-function mousePressed() {
-  
-  if(player_1_spawned){
-    generate_projectile("rgba(255, 255, 0, 0.5)");
-    laser1.play();
   }
+
+
+ 
+
   
+
 }
-
-
