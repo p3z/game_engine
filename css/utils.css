@@ -5,3 +5,8 @@
 .star-shimmer {
     box-shadow: 0 0 50px 25px rgba(0,0,255,0.7);
 }
+
+.cursor-pointer{
+    cursor: pointer;
+  }
+  

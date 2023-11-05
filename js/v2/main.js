@@ -8,31 +8,43 @@ function preload() {
 function init_canvas() { 
     let canvas = createCanvas(windowWidth, windowHeight);      
     background(0);
-    canvas.parent('main_view');          
+    canvas.parent('p5-main_view');          
     clear_canvas_btn.classList.remove("hide");
     player_avatar.resize(BASIC_AVATAR_SIZE, BASIC_AVATAR_SIZE);
+
+     // Draw the white rectangle background for the scoreboard
+    fill(255);
+    rect(10, 10, 300, 40);
+
+     // Create text
+     textSize(24);
+     fill(255); // Set fill color to black
+     text('Hello, p5!', 150, 200); // Display text
+   
+     // Create an ellipse
+     fill(0, 0, 255); // Set fill color to blue
+     ellipse(300, 300, 80, 80); // Draw a blue ellipse
     
 }
 
+
 function draw() {
   
-  if(use_bg_transition){
-    //background(0); // Clear the background
-    transition_background(lerp_amount, SPACE_COLORS);
-      
-    lerp_amount += 0.005; // Adjust the step for smoother transitions
-
-    if (lerp_amount >= 1) {
-      lerp_amount = 0; // reset it
-      bg_color_index1 = (bg_color_index1 + 1) % SPACE_COLORS.length;
-      bg_color_index2 = (bg_color_index1 + 1) % SPACE_COLORS.length;
-    }
-  }
-    
-  
-
-
   if(run_animation){
+
+    /* Handle the fancy spacey animation of the background gradient changing color*/
+    if(use_bg_transition){
+      //background(0); // Clear the background
+      transition_background(lerp_amount, SPACE_COLORS);
+        
+      lerp_amount += 0.005; // Adjust the step for smoother transitions
+
+      if (lerp_amount >= 1) {
+        lerp_amount = 0; // reset it
+        bg_color_index1 = (bg_color_index1 + 1) % SPACE_COLORS.length;
+        bg_color_index2 = (bg_color_index1 + 1) % SPACE_COLORS.length;
+      }
+    }
 
     let sparsity = random_num(0, MAX_STAR_SPARSITY); // decide if we should spawn a star this frame
 
@@ -56,17 +68,14 @@ function draw() {
     animate_celestials(stars);
     animate_celestials(planets);
     animate_enemies(enemies);
-    
 
-  }
+    if (player_1_spawned) {
 
-  if (player_1_spawned) {
-
-    if(mouseIsPressed){
-      generate_projectile("rgba(255, 255, 0, 0.5)");
-      laser1.play();
-    }
-
+      if(mouseIsPressed){
+        generate_projectile("rgba(255, 255, 0, 0.5)");
+        laser1.play();
+      }
+  
       // Calculate avatar pos, centered on the cursor
       let imageX = mouseX - player_avatar.width / 2;
       let imageY = mouseY - player_avatar.height / 2;
@@ -79,9 +88,9 @@ function draw() {
 
       // Draw the player circle with the image background
       image(player_avatar, imageX, imageY, BASIC_AVATAR_SIZE, BASIC_AVATAR_SIZE);
-      
-      
-      
+        
+        
+        
       //let seconds_past = frameCount / 60;
 
       // Check if it's time to spawn a new enemy
@@ -91,15 +100,15 @@ function draw() {
         enemy_last_spawned = frameCount;
         
       }
-
-      animate_messages(message_obj);
-      animate_projectiles(projectiles);
-
+  
+        animate_messages(message_obj);
+        animate_projectiles(projectiles);
+  
+      
+    }
     
-  }
 
-
- 
+  } // end run_animation check
 
   
 
