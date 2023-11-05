@@ -1,9 +1,9 @@
 function preload() {
   player_avatar = loadImage('./img/rocket-icon-wht.png'); 
   enemy_avatar_1 = loadImage('./img/enemy-rocket-wht.png'); 
-
 }
-let game_canvas;
+
+
 
 function setup(){
   game_canvas = createCanvas(windowWidth, windowHeight);      
@@ -18,25 +18,34 @@ function init_canvas() {
     clear_canvas_btn.classList.remove("hide");
     player_avatar.resize(BASIC_AVATAR_SIZE, BASIC_AVATAR_SIZE);
 
-     // Draw the white rectangle background for the scoreboard
-    fill(255);
-    rect(10, 10, 300, 40);
 
-     // Create text
-     textSize(24);
-     fill(255); // Set fill color to black
-     text('Hello, p5!', 150, 200); // Display text
-   
-     // Create an ellipse
-     fill(0, 0, 255); // Set fill color to blue
-     ellipse(300, 300, 80, 80); // Draw a blue ellipse
     
 }
 
+function draw_scoreboard(score){
+    let scoreboard_width = 150;
+    let scoreboard_height = 50;
+    let padding = 30;
 
+    // Calculate the position for the top-right corner
+    let scoreboard_x = width - scoreboard_width - padding; // Calculate X-coordinate
+    let scoreboard_y = padding; // Y-coordinate is 0 for the top
+
+    // Draw a rectangle at the top-right corner
+    // fill("rgba(255,255,255,0.5)"); // Set fill color to red
+    // rect(scoreboard_x, scoreboard_y, scoreboard_width, scoreboard_height);
+    
+    // Add text inside the rectangle
+    textSize(32); // Set the text size
+    fill("rgba(255,255,255,0.6)"); // Set the text fill color to white
+    //textAlign(CENTER, CENTER); // Center the text horizontally and vertically
+    text(player_score, scoreboard_x + scoreboard_width / 2, scoreboard_y + scoreboard_y / 2);
+
+}
 
 
 function draw() {
+
   
   if(run_animation){
 
@@ -75,14 +84,9 @@ function draw() {
     
     animate_celestials(stars);
     animate_celestials(planets);
-    animate_enemies(enemies);
+    
 
     if (player_1_spawned) {
-
-      if(mouseIsPressed){
-        generate_projectile("rgba(255, 255, 0, 0.5)");
-        laser1.play();
-      }
   
       // Calculate avatar pos, centered on the cursor
       let imageX = mouseX - player_avatar.width / 2;
@@ -103,21 +107,44 @@ function draw() {
 
       // Check if it's time to spawn a new enemy
       if(frameCount % enemy_spawn_interval == 0){
-        let enemy = generate_enemy(BASIC_AVATAR_SIZE);
-        enemies.push(enemy);
-        enemy_last_spawned = frameCount;
+
+
+        let next_level = PLAYER_SCORE_MAGNITUDE * game_difficulty * GAME_LEVEL_MAGNITUDE;
+
+        console.log("Next level at: " + next_level);
+        
+        
+        if(player_score >= next_level){
+          game_difficulty++;
+          console.log("NEXT LEVEL")
+        }
+
+        for(let i = 0; i <= game_difficulty; i++){
+          let enemy = generate_enemy(BASIC_AVATAR_SIZE);
+          enemies.push(enemy);
+          //enemy_last_spawned = frameCount;
+        }
+        
         
       }
   
         animate_messages(message_obj);
         animate_projectiles(projectiles);
-  
+        animate_enemies(enemies);
       
     }
     
 
   } // end run_animation check
 
-  
+  draw_scoreboard(player_score);
+}
 
+function mousePressed() {
+  
+  if(player_1_spawned){
+    generate_projectile("rgba(255, 0, 0, 0.5)");
+    laser1.play();
+  }
+  
 }

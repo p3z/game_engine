@@ -1,14 +1,15 @@
 const origin = -100; // above the top of the canvas so things can animate in
 let run_animation = false; // a flag to isolate whether animations are runing or not
-let canvas_initialised = false;
+let game_canvas;
+let game_difficulty = 1;
 let use_bg_transition = true; 
 let player_avatar;
 let player_1_spawned = false; // a flag to determine if the player is currently on the canvas
 
 let enemy_avatar_1;
-let enemy_last_spawned = 0;
+//let enemy_last_spawned = 0;
 let enemy_spawn_interval =  60 * 3; // 60 frames per second (p5 default) * 3 seconds
-
+let player_score = 0;
 
 let scoreboard, lifeboard;
 

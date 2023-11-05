@@ -26,10 +26,11 @@ function detect_enemy_collision(shot, i){
 
     // Check for collision between the projectile and the enemy using collideRectRect
     if (collideRectRect(shot.x, shot.y, shot.width, shot.height, enemy.x, enemy.y, enemy.size, enemy.size)) {
-      // Collision occurred
-      console.log("Hit enemy!");
 
+      player_score += PLAYER_SCORE_MAGNITUDE;
       blip1.play();
+      //console.log(projectiles[i])
+
       projectiles.splice(i, 1); // Remove the projectile
       enemies.splice(j, 1); // Remove the enemy
       break; // Exit the inner loop, assuming one projectile can hit one enemy only

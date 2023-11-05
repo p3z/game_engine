@@ -31,3 +31,6 @@ const PLANET_COLORS = [
 const SPACE_COLORS = [
   '#000000', '#001f3f', '#520652', '#074d4d'
 ];
+
+const PLAYER_SCORE_MAGNITUDE = 100;
+const GAME_LEVEL_MAGNITUDE = 10;
