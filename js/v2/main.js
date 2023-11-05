@@ -109,15 +109,6 @@ function draw() {
       if(frameCount % enemy_spawn_interval == 0){
 
 
-        let next_level = PLAYER_SCORE_MAGNITUDE * game_difficulty * GAME_LEVEL_MAGNITUDE;
-
-        console.log("Next level at: " + next_level);
-        
-        
-        if(player_score >= next_level){
-          game_difficulty++;
-          console.log("NEXT LEVEL")
-        }
 
         for(let i = 0; i <= game_difficulty; i++){
           let enemy = generate_enemy(BASIC_AVATAR_SIZE);

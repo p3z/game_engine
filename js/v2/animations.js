@@ -28,7 +28,21 @@ function detect_enemy_collision(shot, i){
     if (collideRectRect(shot.x, shot.y, shot.width, shot.height, enemy.x, enemy.y, enemy.size, enemy.size)) {
 
       player_score += PLAYER_SCORE_MAGNITUDE;
-      blip1.play();
+
+
+      let next_level = PLAYER_SCORE_MAGNITUDE * game_difficulty * GAME_LEVEL_MAGNITUDE;
+
+      //console.log("Next level at: " + next_level);
+      
+      
+      if(player_score >= next_level){
+        game_difficulty++;
+        //console.log("NEXT LEVEL")
+        success1.play()
+      } else {
+        blip1.play();
+      }
+      
       //console.log(projectiles[i])
 
       projectiles.splice(i, 1); // Remove the projectile
