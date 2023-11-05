@@ -3,12 +3,18 @@ function preload() {
   enemy_avatar_1 = loadImage('./img/enemy-rocket-wht.png'); 
 
 }
+let game_canvas;
+
+function setup(){
+  game_canvas = createCanvas(windowWidth, windowHeight);      
+  background(0);
+  game_canvas.parent('p5-main_view');
+  game_canvas.style('display', 'none')
+}
 
 // dont call this fn 'setup', you'll conflict with p5 defaults and invoke it immediately! using a custom fn name so that it's not immediately invoked 
 function init_canvas() { 
-    let canvas = createCanvas(windowWidth, windowHeight);      
-    background(0);
-    canvas.parent('p5-main_view');          
+    game_canvas.style('display', 'block')
     clear_canvas_btn.classList.remove("hide");
     player_avatar.resize(BASIC_AVATAR_SIZE, BASIC_AVATAR_SIZE);
 
@@ -26,6 +32,8 @@ function init_canvas() {
      ellipse(300, 300, 80, 80); // Draw a blue ellipse
     
 }
+
+
 
 
 function draw() {
