@@ -1,5 +1,6 @@
 const origin = -100; // above the top of the canvas so things can animate in
 let game_paused = true;
+let controller_connected = false;
 let game_canvas;
 let game_difficulty = 1;
 let use_bg_transition = true; 

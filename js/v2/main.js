@@ -3,6 +3,118 @@ function preload() {
   enemy_avatar_1 = loadImage('./img/enemy-rocket-wht.png');
 }
 
+function handle_controller(){
+  let gamepads = navigator.getGamepads();
+  
+
+  if (gamepads[0]) { // Assuming only one gamepad for simplicity
+    gamepad = gamepads[0];
+
+    // Default mappings to my GameSir T3s controller
+        // Iterate through buttons
+        for (let i = 0; i < gamepad.buttons.length; i++) {
+          if (gamepad.buttons[i].pressed) {
+            console.log(`Button ${i} pressed`);
+          }
+        }
+    
+        // Iterate through axes
+        for (let i = 0; i < gamepad.axes.length; i++) {
+          if (gamepad.axes[i] !== 0) {
+            console.log(`Axis ${i} moved: ${gamepad.axes[i]}`);
+          }
+        }
+
+    // if (controller.buttons[0].pressed) { // A
+    //   console.log('A');
+    // } else if (controller.buttons[1].pressed) { // B
+    //   console.log('B'); 
+    // } else if (controller.buttons[2].pressed) { // X
+    //   console.log('X');
+    // } else if (controller.buttons[3].pressed) { // Y
+    //   console.log('Y Button');
+    // } else if (controller.buttons[4].pressed) { // L1
+    //   console.log('L1');
+    // } else if (controller.buttons[4].pressed) {  // ?? NO IDEA...
+    //   console.log('Button 4 pressed');
+    // }else if (controller.buttons[5].pressed) { // R1
+    //   console.log('R1 Button'); 
+    // } else if (controller.buttons[6].pressed) { // L2
+    //   console.log('L2');
+    // } else if (controller.buttons[7].pressed) { // R2
+    //   console.log('R2 prsed');
+    // }else if (controller.buttons[8].pressed) { // SELECT
+    //   console.log('SELECT');
+    // }else if (controller.buttons[9].pressed) { //START
+    //   console.log('START');
+    // }else if (controller.buttons[10].pressed) { // L3
+    //   console.log('L3');
+    // }else if (controller.buttons[11].pressed) { // R3
+    //   console.log('R3');
+    // }else if (controller.buttons[11].pressed) {  // ?? NO IDEA...
+    //   //console.log('Button 11 pressed');
+    // }else if (controller.buttons[12].pressed) { // UP
+    //   console.log('UP');
+    // }else if (controller.buttons[13].pressed) { // DOWN
+    //   console.log('DOWN');
+    // }else if (controller.buttons[14].pressed) { // LEFT
+    //   console.log('LEFT');
+    // }else if (controller.buttons[15].pressed) { // RIGHT
+    //   console.log('RIGHT');
+    // }else if (controller.buttons[16].pressed) { // ?? NO IDEA...
+    //   //console.log('16');
+    // }
+    
+
+    // Map keys to axes
+    // let left_x = controller.axes[0];
+    // let left_y = controller.axes[1];
+    // let right_x = controller.axes[2];
+    // let right_y = controller.axes[3];
+
+    // if (left_x > 0.5) {
+    //   // Right direction on the left stick
+    //   console.log('Right direction on left stick');
+    // } else if (left_x < -0.5) {
+    //   // Left direction on the left stick
+    //   console.log('Left direction on left stick');
+    // }
+    
+    // if (right_x > 0.5) {
+    //   // Right direction on the right stick
+    //   console.log('Right direction on right stick');
+    // } else if (right_x < -0.5) {
+    //   // Left direction on the right stick
+    //   console.log('Left direction on right stick');
+      
+    // }
+
+    
+
+    // if (left_y > 0.5) {
+    //   // Down direction on the left stick
+    //   console.log('Down direction on left stick');
+    // } else if (left_y < -0.5) {
+    //   // Up direction on the left stick
+    //   console.log('Up direction on left stick');
+    // }
+
+    // if (right_y > 0.5) {
+    //   // Down direction on the left stick
+    //   console.log('Down direction on right stick');
+    // } else if (right_y < -0.5) {
+    //   // Up direction on the left stick
+    //   console.log('Up direction on right stick');
+    // }
+  
+  }
+  
+
+
+
+
+}
+
 
 // p5 default load function, this will run regardless of anything you do
 function setup(){
@@ -13,7 +125,18 @@ function setup(){
   game_canvas.parent('p5-main-view');
 
   // but hide it off the getgo, we want to only present it to user when they've triggered it manually
-  game_canvas.style('display', 'none')
+  game_canvas.style('display', 'none');
+
+    // Check for gamepads
+    window.addEventListener("gamepadconnected", function (e) {
+      console.log("Gamepad connected:", e.gamepad);
+      controller_connected = e.gamepad;
+    });
+  
+    window.addEventListener("gamepaddisconnected", function (e) {
+      console.log("Gamepad disconnected:", e.gamepad);
+      controller_connected = false;
+    });
 }
 
 // dont call this fn 'setup', you'll conflict with p5 defaults and invoke it immediately! using a custom fn name so that it's not immediately invoked 
@@ -46,6 +169,10 @@ function draw_scoreboard(score){
 
 
 function draw() {
+
+  if(controller_connected){
+    handle_controller(controller_connected);
+  }
   
     /* Handle the fancy spacey animation of the background gradient changing color*/
     if(use_bg_transition){
