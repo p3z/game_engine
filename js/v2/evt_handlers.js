@@ -3,26 +3,27 @@ menu_btn.onclick = () => {
 }
 
 run_test_btn.onclick = () => {
-    backing_track.play();
+    backing_track.play();    
+    game_paused = false;
     init_canvas();
-    run_animation = true;
+    reset_btn.classList.remove("hide");
+    test_btn.classList.remove("hide");
+    run_test_btn.classList.add("hide");
+    pause_canvas_btn.classList.remove("hide");
 };
 
 
 reset_btn.onclick = () => {
-  reset_view(main_view);
-  clear_canvas_btn.classList.add("hide");
-  stop_audio(backing_track);
+  reset_canvas(game_canvas);
+  reset_state();
+  stop_audio(backing_track, true);
 }
 
 test_btn.onclick = () => {
   player_1_spawned = !player_1_spawned;
+  init_canvas();
 }
 
-clear_canvas_btn.onclick = () => {
-  background(0); // Clear the canvas by setting the background color
-  stars = [];
-  planets = [];
-  run_animation = false;
-  player_1_spawned = false;
+pause_canvas_btn.onclick = () => {
+  pause_play();
 }

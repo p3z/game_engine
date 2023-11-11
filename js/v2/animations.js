@@ -1,11 +1,15 @@
 
 
-function animate_celestials(celestials){   
+function animate_celestials(celestials, paused = false){   
 
     for (let i = celestials.length - 1; i >= 0; i--) {
 
-      let current = celestials[i];            
-      current.y += current.speed; // Move the celestial downwards
+      let current = celestials[i];
+      
+      if(!paused){
+        current.y += current.speed; // Move the celestial downwards
+      }
+           
 
       fill(current.color); // Set the fill color to the celestial's color
       noStroke();            
@@ -52,7 +56,7 @@ function detect_enemy_collision(shot, i){
   }
 }
 
-function animate_projectiles(projectiles){
+function animate_projectiles(projectiles, paused = false){
   for (let i = projectiles.length - 1; i >= 0; i--) {
 
       let shot = projectiles[i];
@@ -62,9 +66,12 @@ function animate_projectiles(projectiles){
       noStroke(); 
       rect(shot.x, fire_origin, shot.width, shot.height);
 
-      // Move the shot upwards
-      shot.y -= 15; // Adjust the speed as needed
-      detect_enemy_collision(shot, i);
+      if(!paused){
+        // Move the shot upwards
+        shot.y -= 15; // Adjust the speed as needed
+        detect_enemy_collision(shot, i);
+      }
+      
 
       // Remove projectiles that have moved out of the canvas
       if (shot.y + shot.diameter / 2 < 0) {
@@ -73,7 +80,7 @@ function animate_projectiles(projectiles){
   }
 }
 
-function animate_enemies(enemies){
+function animate_enemies(enemies, paused = false){
   for (let i = enemies.length - 1; i >= 0; i--) {
 
       let enemy = enemies[i];
@@ -84,7 +91,10 @@ function animate_enemies(enemies){
       //rect(enemy.x, enemy.y, enemy.size, enemy.size); // bounding box
       image(enemy_avatar_1, enemy.x, enemy.y, enemy.size, enemy.size);
           
-      enemy.y += enemy.speed; // Adjust the speed as needed
+      if(!paused){
+        enemy.y += enemy.speed; // Adjust the speed as needed
+      }
+      
 
 
       // Remove enemies that have moved out of the canvas
@@ -94,7 +104,7 @@ function animate_enemies(enemies){
   }
 }
 
-function animate_messages(text_arr){
+function animate_messages(text_arr, paused = false){
 
   for (let i = text_arr.length - 1; i >= 0; i--) {
     let msg = text_arr[i];
@@ -107,8 +117,10 @@ function animate_messages(text_arr){
       strokeWeight(4);
       text(msg.text, msg.x, msg.y);
           
-      msg.y += msg.speed; // Adjust the speed as needed
-
+      if(!paused){
+        msg.y += msg.speed; // Adjust the speed as needed
+      }
+      
       // Remove msgs that have moved out of the canvas
        if (msg.y  >= canvas.height) {
          text_arr.splice(i, 1);

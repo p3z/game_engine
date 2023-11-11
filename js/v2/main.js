@@ -1,25 +1,26 @@
 function preload() {
-  player_avatar = loadImage('./img/rocket-icon-wht.png'); 
+  player_avatar = loadImage('./img/rocket-icon-wht.png');  
   enemy_avatar_1 = loadImage('./img/enemy-rocket-wht.png');
 }
 
 
-
+// p5 default load function, this will run regardless of anything you do
 function setup(){
+
+  // so register the canvas, and initialise it
   game_canvas = createCanvas(windowWidth, windowHeight);      
   background(0);
   game_canvas.parent('p5-main-view');
+
+  // but hide it off the getgo, we want to only present it to user when they've triggered it manually
   game_canvas.style('display', 'none')
 }
 
 // dont call this fn 'setup', you'll conflict with p5 defaults and invoke it immediately! using a custom fn name so that it's not immediately invoked 
 function init_canvas() { 
     game_canvas.style('display', 'block')
-    clear_canvas_btn.classList.remove("hide");
+    //pause_canvas_btn.classList.remove("hide");
     player_avatar.resize(BASIC_AVATAR_SIZE, BASIC_AVATAR_SIZE);
-
-
-    
 }
 
 function draw_scoreboard(score){
@@ -45,16 +46,16 @@ function draw_scoreboard(score){
 
 
 function draw() {
-
   
-  if(run_animation){
-
     /* Handle the fancy spacey animation of the background gradient changing color*/
     if(use_bg_transition){
       //background(0); // Clear the background
       transition_background(lerp_amount, SPACE_COLORS);
-        
-      lerp_amount += 0.005; // Adjust the step for smoother transitions
+      
+      if(!game_paused){
+        lerp_amount += 0.005; // Adjust the step for smoother transitions
+      }
+      
 
       if (lerp_amount >= 1) {
         lerp_amount = 0; // reset it
@@ -66,12 +67,12 @@ function draw() {
     let sparsity = random_num(0, MAX_STAR_SPARSITY); // decide if we should spawn a star this frame
 
     switch(true){
-      case (sparsity < get_percentage(MAX_STAR_SPARSITY, 1)): // 1% chance
+      case (!game_paused && sparsity < get_percentage(MAX_STAR_SPARSITY, 1)): // 1% chance
         let new_planet = generate_celestial('planet');
         planets.push(new_planet);
         break;
 
-      case (sparsity < get_percentage(MAX_STAR_SPARSITY, 50)): // 50% chance
+      case (!game_paused && sparsity < get_percentage(MAX_STAR_SPARSITY, 50)): // 50% chance
         // let star_qty = random_num(0 ,3); // if we want to create more than one star per frame
 
         // for(let i = 0; i < star_qty; i++){
@@ -81,9 +82,8 @@ function draw() {
         break;
     }
     
-    
-    animate_celestials(stars);
-    animate_celestials(planets);
+    animate_celestials(stars, game_paused);
+    animate_celestials(planets, game_paused);
     
 
     if (player_1_spawned) {
@@ -106,7 +106,7 @@ function draw() {
       //let seconds_past = frameCount / 60;
 
       // Check if it's time to spawn a new enemy
-      if(frameCount % enemy_spawn_interval == 0){
+      if(!game_paused && frameCount % enemy_spawn_interval == 0){
 
 
 
@@ -119,14 +119,14 @@ function draw() {
         
       }
   
-        animate_messages(message_obj);
-        animate_projectiles(projectiles);
-        animate_enemies(enemies);
+         animate_messages(message_obj, game_paused);
+         animate_projectiles(projectiles, game_paused);
+         animate_enemies(enemies, game_paused);
       
     }
     
 
-  } // end run_animation check
+  
 
   if(player_1_spawned){
     draw_scoreboard(player_score);
@@ -135,9 +135,57 @@ function draw() {
 
 function mousePressed() {
   
-  if(player_1_spawned){
+  if(!game_paused && player_1_spawned){
     generate_projectile("rgba(255, 0, 0, 0.5)");
     laser1.play();
   }
   
+}
+
+function keyPressed() {
+  switch (key) {
+    case ' ': // Space key is pressed      
+      pause_play();
+      break;
+    case 'Enter':
+      // Enter key is pressed
+      console.log('Enter key pressed');
+      break;
+    case 'w':
+    case 'W':
+      // W key is pressed
+      console.log('W key pressed');
+      break;
+    case 'a':
+    case 'A':
+      // A key is pressed
+      console.log('A key pressed');
+      break;
+    case 's':
+    case 'S':
+      // S key is pressed
+      console.log('S key pressed');
+      break;
+    case 'd':
+    case 'D':
+      // D key is pressed
+      console.log('D key pressed');
+      break;
+    case 'ArrowLeft':
+      // Left arrow key is pressed
+      console.log('Left arrow key pressed');
+      break;
+    case 'ArrowUp':
+      // Up arrow key is pressed
+      console.log('Up arrow key pressed');
+      break;
+    case 'ArrowRight':
+      // Right arrow key is pressed
+      console.log('Right arrow key pressed');
+      break;
+    case 'ArrowDown':
+      // Down arrow key is pressed
+      console.log('Down arrow key pressed');
+      break;
+  }
 }

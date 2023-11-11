@@ -47,13 +47,31 @@ function get_percentage(num, percentage){
     return num / 100 * percentage;
 }
 
-function reset_view(view) {
-    view.innerHTML = "";
+function reset_canvas(canvas) {
+    canvas.style('display', 'none')
 }
 
-function stop_audio(audio){
+function reset_state(){
+    stars = [];
+    planets = [];
+    pause_canvas_btn.classList.add("hide");
+    test_btn.classList.add("hide");
+    reset_btn.classList.add("hide");
+    run_test_btn.classList.remove("hide");
+    player_1_spawned = false;
+    game_difficulty = 1;
+    use_bg_transition = true; 
+    player_score = 0;
+    enemy_spawn_interval =  60 * 3; // 60 frames per second (p5 default) * 3 seconds
+}
+
+function stop_audio(audio, reset = false){
     audio.pause();
-    audio.currentTime = 0;
+
+    if(reset){
+        audio.currentTime = 0;
+    }
+    
 }
 
 function select_spawn_point(view, location = []){

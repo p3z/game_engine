@@ -1,5 +1,5 @@
 const origin = -100; // above the top of the canvas so things can animate in
-let run_animation = false; // a flag to isolate whether animations are runing or not
+let game_paused = true;
 let game_canvas;
 let game_difficulty = 1;
 let use_bg_transition = true; 
@@ -128,3 +128,15 @@ function generate_message_box(text, base_delay){
   return message_obj;
 }
 
+function pause_play(){
+  game_paused = !game_paused;
+
+  if(game_paused){
+    pause_canvas_btn.textContent = "Resume";
+    stop_audio(backing_track);
+  } else {
+    pause_canvas_btn.textContent = "Pause";
+    backing_track.play();
+  }
+  //player_1_spawned = false;
+}
