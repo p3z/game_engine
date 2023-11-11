@@ -30,6 +30,7 @@ const backing_track = document.querySelector('.js-backing-track');
 var player_score = DEFAULT_PLAYER_SCORE;
 var player_lives = DEFAULT_PLAYER_LIVES;
 
+// handy for DOM-based animations, using canvas though, probs wont need this any more
 function check_DOM_size(element, label){
 
     if (element) {

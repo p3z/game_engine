@@ -14,6 +14,8 @@ Upon completion, use the engine to create a game in each of these genres.
 - tilemap / sprite based games
 - first-person perspective
 - third-person perspective
+- deck building / card game
+- point and click / node traversing
 
 ## JS Map
 - utils.js: generic functions that could be used anywhere

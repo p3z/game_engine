@@ -1,6 +1,6 @@
 function preload() {
   player_avatar = loadImage('./img/rocket-icon-wht.png'); 
-  enemy_avatar_1 = loadImage('./img/enemy-rocket-wht.png'); 
+  enemy_avatar_1 = loadImage('./img/enemy-rocket-wht.png');
 }
 
 
@@ -8,7 +8,7 @@ function preload() {
 function setup(){
   game_canvas = createCanvas(windowWidth, windowHeight);      
   background(0);
-  game_canvas.parent('p5-main_view');
+  game_canvas.parent('p5-main-view');
   game_canvas.style('display', 'none')
 }
 
@@ -128,7 +128,9 @@ function draw() {
 
   } // end run_animation check
 
-  draw_scoreboard(player_score);
+  if(player_1_spawned){
+    draw_scoreboard(player_score);
+  }
 }
 
 function mousePressed() {

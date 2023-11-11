@@ -1,3 +1,7 @@
+menu_btn.onclick = () => {
+  control_panel.classList.toggle("control-panel-active");
+}
+
 run_test_btn.onclick = () => {
     backing_track.play();
     init_canvas();
@@ -21,4 +25,4 @@ clear_canvas_btn.onclick = () => {
   planets = [];
   run_animation = false;
   player_1_spawned = false;
-  }
+}
