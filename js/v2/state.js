@@ -3,7 +3,7 @@ let game_paused = true;
 let animated_frames_count = 0; // not all frames are animated, if the game is paused for example, then p5's frameCount continues running but anything that makes use of it may be off. So use this instead, and update it after every frame of animations that has run
 let controller_connected = false;
 let game_canvas;
-let game_difficulty = 0;
+let game_difficulty = 1;
 let use_bg_transition = true; 
 let player_avatar;
 let player_1_spawned = false; // a flag to determine if the player is currently on the canvas
@@ -28,11 +28,12 @@ let bg_color_index1 = 0;
 let bg_color_index2 = 1;
 let lerp_amount = 0;
 
-// Initialise object containers. These will hold objects that get translated into elements  on the canvas
+// Initialise object containers. These will hold objects that get translated into elements on the canvas
 let stars = [];
 let planets = [];
 let projectiles = [];
 let enemies = [];
+let messages = [];
 
 // turn an array of words into an array of message objects ready to use ingame
 function initialise_messages(msg_arr){
@@ -42,14 +43,12 @@ function initialise_messages(msg_arr){
   for(let i = 0; i < msg_arr.length; i++){
       let current_msg = msg_arr[i];
       let new_message = generate_message_box(current_msg, i + 1);
-
       messages.push(new_message);
   }
 
   return messages;
 }
 
-let test_message_obj = initialise_messages(test_message_arr);
 
 
 function generate_celestial(type){
@@ -134,15 +133,13 @@ function generate_message_box(text, base_delay){
   
   let message_obj = {
     text: text,
-    x: random_num(200,700), 
+    x: random_num(200,700), // where on the x axis do we want to spawn it?
     y: origin, // spawn it above the canvas
     size: size ?? 16,
-    color: "white",
-    speed: 3, //random_num(1, 4) // random speeds = words might be faster than they should
+    color: "#fff",
+    speed: 6, // dont use random speeds = words might be faster than they should
     delay: base_delay * delay_factor
   }
-
-  //console.log(message_obj.delay)
 
   //console.log(message_obj)
 

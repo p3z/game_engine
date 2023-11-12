@@ -1,6 +1,7 @@
 function preload() {
   player_avatar = loadImage('./img/rocket-icon-wht.png');  
   enemy_avatar_1 = loadImage('./img/enemy-rocket-wht.png');
+  
 }
 
 function handle_controller(){
@@ -189,6 +190,8 @@ function draw() {
       bg_color_index1 = (bg_color_index1 + 1) % SPACE_COLORS.length;
       bg_color_index2 = (bg_color_index1 + 1) % SPACE_COLORS.length;
     }
+  } else {
+    background(0);
   }
 
   let sparsity = random_num(0, MAX_STAR_SPARSITY); // decide if we should spawn a star this frame
@@ -246,7 +249,8 @@ function draw() {
       
     }
 
-      animate_messages(test_message_obj, game_paused);
+      
+      animate_messages(messages, game_paused);
       animate_projectiles(projectiles, game_paused);
       animate_enemies(enemies, game_paused);
     
@@ -325,3 +329,4 @@ function keyPressed() {
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
+

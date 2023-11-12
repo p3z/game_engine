@@ -28,7 +28,7 @@ function detect_enemy_collision(shot, i){
   for (let j = enemies.length - 1; j >= 0; j--) {
     let enemy = enemies[j];
 
-    // Check for collision between the projectile and the enemy using collideRectRect
+    // Check for collision between the projectile and the enemy using collideRectRect (comes from collide2d package)
     if (collideRectRect(shot.x, shot.y, shot.width, shot.height, enemy.x, enemy.y, enemy.size, enemy.size)) {
 
       player_score += PLAYER_SCORE_MAGNITUDE;
@@ -36,12 +36,18 @@ function detect_enemy_collision(shot, i){
 
       let next_level = PLAYER_SCORE_MAGNITUDE * game_difficulty * GAME_LEVEL_MAGNITUDE;
 
-      //console.log("Next level at: " + next_level);
+      console.log("Next level at: " + next_level);
       
       
       if(player_score >= next_level){
         game_difficulty++;
-        console.log("NEXT LEVEL");
+        let level_update_msg = "Level " + game_difficulty;
+        let new_message = generate_message_box(level_update_msg, 1);
+        
+        messages.push(new_message); 
+        
+        // console.log("Level " + game_difficulty + " started...");
+        // console.log(messages)
 
         if(game_difficulty === 3){
           console.log("speed increased")
@@ -156,8 +162,11 @@ function animate_messages(text_arr, paused = false){
 
   for (let i = text_arr.length - 1; i >= 0; i--) {
     let msg = text_arr[i];
+    
 
-    if (animated_frames_count >= msg.delay) {      
+    if (animated_frames_count >= msg.delay) {    
+      
+      //console.log(msg)
       
       textSize(msg.size);
       fill(msg.color);

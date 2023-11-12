@@ -10,6 +10,8 @@ run_test_btn.onclick = () => {
     test_btn.classList.remove("hide");
     run_test_btn.classList.add("hide");
     pause_canvas_btn.classList.remove("hide");
+    let new_message = generate_message_box("Level 1",  1);
+    messages.push(new_message); 
 };
 
 
