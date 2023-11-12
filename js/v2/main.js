@@ -319,3 +319,7 @@ function keyPressed() {
       break;
   }
 }
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
