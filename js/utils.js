@@ -1,8 +1,6 @@
 function random_num(floor, ceil){
-
-    return Math.floor(Math.random() * (ceil - floor + 1) + floor);
-    
-} // end random_num
+    return Math.floor(Math.random() * (ceil - floor + 1) + floor);    
+} 
 
 // Returns an array of rgba color objects
 function random_rgba(qty = 1, solid = false){
@@ -100,4 +98,18 @@ function select_spawn_point(view, location = []){
     //console.log(spawn_point)
     
     return spawn_point;
+}
+
+function calculate_rotation_angle(speed, angle_obj) {
+
+    let { min_speed, max_speed, min_angle, max_angle } = angle_obj;
+    
+    // Ensure speed is within the specified range
+    speed = constrain(speed, min_speed, max_speed);
+  
+    // Linear mapping formula
+    let percentage = (speed - min_speed) / (max_speed - min_speed);
+    let rotation_angle = lerp(min_angle, max_angle, percentage);
+  
+    return rotation_angle;
 }

@@ -2,10 +2,18 @@ const origin = -100; // above the top of the canvas so things can animate in
 let game_paused = true;
 let controller_connected = false;
 let game_canvas;
-let game_difficulty = 1;
+let game_difficulty = 0;
 let use_bg_transition = true; 
 let player_avatar;
 let player_1_spawned = false; // a flag to determine if the player is currently on the canvas
+
+const enemy_angle_obj = {
+  min_speed: 3,
+  max_speed: 5,
+  min_angle: 15, // dont set this to 0, will cause bugs because calculate_rotation_angle will convert small values to 0, which in turn leads to rotations being set to default (ie 0 position origin) which is at odds with the direction of the flight path
+  max_angle: 75
+};
+
 
 let enemy_avatar_1;
 //let enemy_last_spawned = 0;
@@ -92,11 +100,22 @@ projectiles.push(shot);
 
 function generate_enemy(size){
 
+    let directions = [
+      'left', 'right', 'forwards'
+    ];
+    let rand_direction = random_num(0, directions.length);
+
+    let enemy_y_speed = random_num(5, 8);
+    let enemy_x_speed = random_num(3, 5);
+    
+
     let enemy_obj = {
       x: random(width), 
       y: -size, // spawn it above the canvas
       size: size,
-      speed: random_num(5, 8),
+      x_speed: enemy_x_speed,
+      y_speed: enemy_y_speed,
+      direction: directions[rand_direction]
       //color: rand_arr_select(potential_cols)         
     };
   
@@ -122,7 +141,7 @@ function generate_message_box(text, base_delay){
     delay: base_delay * delay_factor
   }
 
-  console.log(message_obj.delay)
+  //console.log(message_obj.delay)
 
   //console.log(message_obj)
 

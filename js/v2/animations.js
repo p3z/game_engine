@@ -1,5 +1,3 @@
-
-
 function animate_celestials(celestials, paused = false){   
 
     for (let i = celestials.length - 1; i >= 0; i--) {
@@ -18,6 +16,7 @@ function animate_celestials(celestials, paused = false){
       // Remove celestials that have moved off the canvas
       if (current.y > height + current.size / 2) {
         celestials.splice(i, 1);
+        //console.log("Celestial left the screen")
       }
 
     }
@@ -25,6 +24,7 @@ function animate_celestials(celestials, paused = false){
 }
 
 function detect_enemy_collision(shot, i){
+
   for (let j = enemies.length - 1; j >= 0; j--) {
     let enemy = enemies[j];
 
@@ -41,10 +41,35 @@ function detect_enemy_collision(shot, i){
       
       if(player_score >= next_level){
         game_difficulty++;
-        //console.log("NEXT LEVEL")
-        success1.play()
+        console.log("NEXT LEVEL");
+
+        if(game_difficulty === 3){
+          console.log("speed increased")
+          enemy_spawn_interval = 60 * 2;
+        }
+
+        if(game_difficulty === 5){
+          console.log("speed increased")
+          enemy_spawn_interval = 60 * 1;
+        }
+
+        if(game_difficulty === 7){
+          console.log("speed increased")
+          enemy_spawn_interval = 60 * 0.5;
+        }
+
+        
+
+        
+
+        if(success1){
+          success1.play();
+        }
+        
       } else {
-        blip1.play();
+        if(blip1){
+          blip1.play();
+        }
       }
       
       //console.log(projectiles[i])
@@ -73,33 +98,56 @@ function animate_projectiles(projectiles, paused = false){
       }
       
 
+      //console.log(shot.y)
       // Remove projectiles that have moved out of the canvas
-      if (shot.y + shot.diameter / 2 < 0) {
+      if (shot.y + shot.height < 0) {
         projectiles.splice(i, 1);
+        //console.log("projectile left the screen");
       }
   }
 }
 
 function animate_enemies(enemies, paused = false){
+  
   for (let i = enemies.length - 1; i >= 0; i--) {
 
       let enemy = enemies[i];
-      let enemy_origin = enemy.y - player_avatar.height;
-
-      //fill("red"); // Set the fill color to the enemy's color
+      
+      
+      push(); // Save the current transformation state
       noStroke(); 
-      //rect(enemy.x, enemy.y, enemy.size, enemy.size); // bounding box
-      image(enemy_avatar_1, enemy.x, enemy.y, enemy.size, enemy.size);
+      translate(enemy.x + enemy.size / 2, enemy.y + enemy.size / 2);
           
-      if(!paused){
-        enemy.y += enemy.speed; // Adjust the speed as needed
+      if(!paused){        
+
+        let angle = calculate_rotation_angle(enemy.x_speed, enemy_angle_obj);
+        
+        if(enemy.direction === "left"){
+          enemy.x -= enemy.x_speed;
+          rotate(radians(angle)); 
+        } else if(enemy.direction === "right"){
+          enemy.x += enemy.x_speed;
+          rotate(radians(-angle)); 
+        }        
+        
+        enemy.y += enemy.y_speed;
       }
       
 
+      //fill("red"); // Set the fill color to the enemy's color
+      
+      //rect(-enemy.size / 2, -enemy.size / 2, enemy.size, enemy.size); // Draw the bounding box
+      imageMode(CENTER); // Set image mode to center
+      image(enemy_avatar_1, 0, 0, enemy.size, enemy.size); // Draw the image centered
+      pop(); // Restore the previous transformation state
+      
 
-      // Remove enemies that have moved out of the canvas
-      if (enemy.y + enemy.diameter / 2 < 0) {
+
+
+      // Remove enemies that have moved out of the canvas      
+      if (enemy.y + enemy.size / 2 >= height) {
         enemies.splice(i, 1);
+        //console.log("enemy left the screen");
       }
   }
 }

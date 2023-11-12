@@ -227,19 +227,22 @@ function draw() {
 
       // Draw the player circle with the image background
       image(player_avatar, imageX, imageY, BASIC_AVATAR_SIZE, BASIC_AVATAR_SIZE);
-        
-        
-        
-      //let seconds_past = frameCount / 60;
+      
 
       // Check if it's time to spawn a new enemy
       if(!game_paused && frameCount % enemy_spawn_interval == 0){
 
 
 
-        for(let i = 0; i <= game_difficulty; i++){
-          let enemy = generate_enemy(BASIC_AVATAR_SIZE);
-          enemies.push(enemy);
+        for(let i = 0; i <= game_difficulty; i++){          
+          if(enemies.length < MAX_ENEMY_QTY){
+            let enemy = generate_enemy(BASIC_AVATAR_SIZE);
+            enemies.push(enemy);
+          } else {
+            console.log("Max enemies in memory!")
+            console.log(enemies.length)
+          }
+          
           //enemy_last_spawned = frameCount;
         }
         
