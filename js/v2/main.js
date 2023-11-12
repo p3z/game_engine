@@ -174,92 +174,94 @@ function draw() {
     handle_controller(controller_connected);
   }
   
-    /* Handle the fancy spacey animation of the background gradient changing color*/
-    if(use_bg_transition){
-      //background(0); // Clear the background
-      transition_background(lerp_amount, SPACE_COLORS);
-      
-      if(!game_paused){
-        lerp_amount += 0.005; // Adjust the step for smoother transitions
-      }
-      
-
-      if (lerp_amount >= 1) {
-        lerp_amount = 0; // reset it
-        bg_color_index1 = (bg_color_index1 + 1) % SPACE_COLORS.length;
-        bg_color_index2 = (bg_color_index1 + 1) % SPACE_COLORS.length;
-      }
-    }
-
-    let sparsity = random_num(0, MAX_STAR_SPARSITY); // decide if we should spawn a star this frame
-
-    switch(true){
-      case (!game_paused && sparsity < get_percentage(MAX_STAR_SPARSITY, 1)): // 1% chance
-        let new_planet = generate_celestial('planet');
-        planets.push(new_planet);
-        break;
-
-      case (!game_paused && sparsity < get_percentage(MAX_STAR_SPARSITY, 50)): // 50% chance
-        // let star_qty = random_num(0 ,3); // if we want to create more than one star per frame
-
-        // for(let i = 0; i < star_qty; i++){
-          let new_star = generate_celestial();
-          stars.push(new_star);
-        //}
-        break;
+  /* Handle the fancy spacey animation of the background gradient changing color*/
+  if(use_bg_transition){
+    //background(0); // Clear the background
+    transition_background(lerp_amount, SPACE_COLORS);
+    
+    if(!game_paused){
+      lerp_amount += 0.005; // Adjust the step for smoother transitions
     }
     
-    animate_celestials(stars, game_paused);
-    animate_celestials(planets, game_paused);
-    
 
-    if (player_1_spawned) {
+    if (lerp_amount >= 1) {
+      lerp_amount = 0; // reset it
+      bg_color_index1 = (bg_color_index1 + 1) % SPACE_COLORS.length;
+      bg_color_index2 = (bg_color_index1 + 1) % SPACE_COLORS.length;
+    }
+  }
+
+  let sparsity = random_num(0, MAX_STAR_SPARSITY); // decide if we should spawn a star this frame
+
+  switch(true){
+    case (!game_paused && sparsity < get_percentage(MAX_STAR_SPARSITY, 1)): // 1% chance
+      let new_planet = generate_celestial('planet');
+      planets.push(new_planet);
+      break;
+
+    case (!game_paused && sparsity < get_percentage(MAX_STAR_SPARSITY, 50)): // 50% chance
+      // let star_qty = random_num(0 ,3); // if we want to create more than one star per frame
+
+      // for(let i = 0; i < star_qty; i++){
+        let new_star = generate_celestial();
+        stars.push(new_star);
+      //}
+      break;
+  }
   
-      // Calculate avatar pos, centered on the cursor
-      let imageX = mouseX - player_avatar.width / 2;
-      let imageY = mouseY - player_avatar.height / 2;
+  animate_celestials(stars, game_paused);
+  animate_celestials(planets, game_paused);
+  
 
-      // Draw a border around the player image (handy for troubleshooting)
-      // stroke(255, 0, 0); // Red border color
-      // strokeWeight(2); // Border width
-      // noFill(); // No fill inside the border
-      // rect(imageX, imageY, player_avatar.width, player_avatar.height);
+  if (player_1_spawned) {
 
-      // Draw the player circle with the image background
-      image(player_avatar, imageX, imageY, BASIC_AVATAR_SIZE, BASIC_AVATAR_SIZE);
-      
+    // Calculate avatar pos, centered on the cursor
+    let imageX = mouseX - player_avatar.width / 2;
+    let imageY = mouseY - player_avatar.height / 2;
 
-      // Check if it's time to spawn a new enemy
-      if(!game_paused && frameCount % enemy_spawn_interval == 0){
+    // Draw a border around the player image (handy for troubleshooting)
+    // stroke(255, 0, 0); // Red border color
+    // strokeWeight(2); // Border width
+    // noFill(); // No fill inside the border
+    // rect(imageX, imageY, player_avatar.width, player_avatar.height);
+    
+    image(player_avatar, imageX, imageY, BASIC_AVATAR_SIZE, BASIC_AVATAR_SIZE);
+    
 
+    // Check if it's time to spawn a new enemy
+    if(!game_paused && animated_frames_count % enemy_spawn_interval == 0){
 
-
-        for(let i = 0; i <= game_difficulty; i++){          
-          if(enemies.length < MAX_ENEMY_QTY){
-            let enemy = generate_enemy(BASIC_AVATAR_SIZE);
-            enemies.push(enemy);
-          } else {
-            console.log("Max enemies in memory!")
-            console.log(enemies.length)
-          }
-          
-          //enemy_last_spawned = frameCount;
+      for(let i = 0; i <= game_difficulty; i++){          
+        if(enemies.length < MAX_ENEMY_QTY){
+          let enemy = generate_enemy(BASIC_AVATAR_SIZE);
+          enemies.push(enemy);
+        } else {
+          console.log("Max enemies in memory!")
+          console.log(enemies.length)
         }
         
-        
+        //enemy_last_spawned = frameCount;
       }
-  
-         animate_messages(message_obj, game_paused);
-         animate_projectiles(projectiles, game_paused);
-         animate_enemies(enemies, game_paused);
+      
       
     }
-    
 
+      animate_messages(test_message_obj, game_paused);
+      animate_projectiles(projectiles, game_paused);
+      animate_enemies(enemies, game_paused);
+    
+  }
   
+
+
 
   if(player_1_spawned){
     draw_scoreboard(player_score);
+  }
+
+  if(!game_paused && player_1_spawned){
+    animated_frames_count++;
+    //console.log(animated_frames_count);
   }
 }
 

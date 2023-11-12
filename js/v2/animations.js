@@ -157,7 +157,7 @@ function animate_messages(text_arr, paused = false){
   for (let i = text_arr.length - 1; i >= 0; i--) {
     let msg = text_arr[i];
 
-    if (frameCount >= msg.delay) {      
+    if (animated_frames_count >= msg.delay) {      
       
       textSize(msg.size);
       fill(msg.color);
@@ -170,7 +170,7 @@ function animate_messages(text_arr, paused = false){
       }
       
       // Remove msgs that have moved out of the canvas
-       if (msg.y  >= canvas.height) {
+       if (msg.y - msg.size >= canvas.height) {
          text_arr.splice(i, 1);
        }
     }
