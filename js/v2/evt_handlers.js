@@ -2,6 +2,7 @@ menu_btn.onclick = () => {
   control_panel.classList.toggle("control-panel-active");
 }
 
+
 run_test_btn.onclick = () => {    
     backing_track.play();    
     game_paused = false;

@@ -48,7 +48,7 @@ body{
 .splash-signature a{
   text-decoration: underline;
   color: #fff;
-  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .header-panel{
@@ -103,6 +103,8 @@ body{
   border: 2px solid #fff;
   padding: 5px 15px;
   background: transparent;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
 .control-panel-active{
@@ -146,10 +148,7 @@ body{
 }
 
 
-.dev-btn{
-  padding: 5px 10px;
-  cursor: pointer;
-}
+
 
 
 .lifeboard-avatar{
