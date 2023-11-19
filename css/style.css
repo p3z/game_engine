@@ -1,10 +1,82 @@
-.menu-btn1{
-  height: 30px;
-  width: 30px;
+@font-face {
+  font-family: 'VT323';
+  src: local('VT323'), url('../fonts/VT323/VT323-Regular.ttf');
+}
+
+body{
+  background:
+      radial-gradient(circle farthest-side at 0% 50%,#315bc1 23.5%,#0000 0)18.9px 27px,
+      radial-gradient(circle farthest-side at 0% 50%,#a8b3d2 24%,#0000 0)17.1px 27px,
+      linear-gradient(#315bc1 14%,#0000 0, #0000 85%,#315bc1 0)0 0,
+      linear-gradient(150deg,#315bc1 24%,#a8b3d2 0,#a8b3d2 26%,#0000 0,#0000 74%,#a8b3d2 0,#a8b3d2 76%,#315bc1 0)0 0,
+      linear-gradient(30deg,#315bc1 24%,#a8b3d2 0,#a8b3d2 26%,#0000 0,#0000 74%,#a8b3d2 0,#a8b3d2 76%,#315bc1 0)0 0,
+      linear-gradient(90deg,#a8b3d2 2%,#315bc1 0,#315bc1 98%,#a8b3d2 0%)0 0 #315bc1;
+    background-size: 36px 54px;
+    background-color: #315bc1;    
+}
+
+.splash-panel{
   position: fixed;
-  top: 30px;
-  left: 30px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* background-color: rgb(240, 240, 240, 0.8); */
+  padding: 20px;
+  z-index: 10000;
+  text-align: center;
+  font-family: 'VT323', monospace;
+  line-height: 1.2;
+  letter-spacing: 3px;
+  color: #fff;
+}
+
+.splash-panel h1{
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.splash-text{
+  font-size: 24px;
+}
+
+.splash-signature{
+  font-size: 16px;  
+  letter-spacing: 1px;
+}
+
+.splash-signature a{
+  text-decoration: underline;
+  color: #fff;
+  font-weight: 700;
+}
+
+.header-panel{
+  position: fixed;
+  top: 0;
+  padding: 15px;
+  width: 100vw;
+  height: 100px;
   z-index: 9999;
+  /* border: 2px solid green; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.game-ui-load-element{
+  /* border: 2px solid red; */
+  height: auto;
+  width: 120px;
+  cursor: pointer;
+  display: none;
+
+}
+
+.menu-btn1{
+  /* border: 2px solid white; */
+  height: 30px;
+  width: 50px;  
   cursor: pointer;
   background: url(../img/menu-icon-wht.png);
   background-size: contain;
@@ -12,18 +84,30 @@
   background-position: center center;
 }
 
+/** starts off offscreen*/
 .control-panel{
   position: fixed;
   bottom: 5px;
   right: -500px;  
   transition: .3s ease all;
-  display:  flex;
+  display: flex;
   flex-direction: column;
-  z-index: 9999;
+  z-index: 9999;  
+}
+
+.control-panel button{
+  font-family: 'VT323', monospace;
+  letter-spacing: 1px;
+  font-size: 24px;
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 5px 15px;
+  background: transparent;
 }
 
 .control-panel-active{
-  right: 5px;
+  right: 15px;
+  bottom: 15px;
 }
 
 #p5-main-view{

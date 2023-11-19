@@ -1,5 +1,7 @@
+const header_panel = document.querySelector('.header-panel');
 const menu_btn = document.querySelector('.menu-btn1');
 const control_panel = document.querySelector('.control-panel');
+const splash_panel = document.querySelector('.splash-panel');
 const run_test_btn = document.querySelector('.js-run_test');
 const reset_btn = document.querySelector('.js-reset');
 const test_btn  = document.querySelector('.js-test');

@@ -1,5 +1,5 @@
 # Play_Construct -> a rudimentary game engine
-This project is just a place to experiment with some ideas related to making videogames while simultaneously testing my current programming proficiency.
+This project is just a place to experiment with ideas related to making videogames while simultaneously testing my current programming proficiency.
 
 This is custom software that I'm writing from the ground up without consulting any specific framework, or tutorial. I'm literally building this with intuition and from my own personal experience actually playing videogames over the years.
 

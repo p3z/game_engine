@@ -72,6 +72,8 @@ function reset_state(){
   test_btn.classList.add("hide");
   reset_btn.classList.add("hide");
   run_test_btn.classList.remove("hide");
+  header_panel.classList.remove("hide");
+  splash_panel.classList.remove("hide");
   player_1_spawned = false;
   game_difficulty = 1;
   use_bg_transition = true; 
