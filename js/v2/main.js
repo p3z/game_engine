@@ -167,7 +167,7 @@ function draw_scoreboard(score){
     // Add text inside the rectangle
     //textFont(VT323); // this is affecting performance... p5 does NOT like custom fonts, how dumb -_-
     textSize(32); // Set the text size
-    fill("rgba(255,255,255,0.6)"); // Set the text fill color to white
+    fill("rgba(255,255,255, 1)"); // Set the text fill color to white
     //textAlign(CENTER, CENTER); // Center the text horizontally and vertically
     text(player_score, scoreboard_x + scoreboard_width / 2, scoreboard_y + scoreboard_y / 2);
 
@@ -274,8 +274,12 @@ function draw() {
       animate_projectiles(projectiles, game_paused);
       animate_enemies(enemies, game_paused);
       animate_powerups(powerups, game_paused);
-      detect_player_enemy_collision(player_1);
-      detect_player_powerup_collision(player_1);
+
+      if(!game_paused){
+        detect_player_enemy_collision(player_1);
+        detect_player_powerup_collision(player_1);
+      }
+      
     
   }
   
@@ -306,7 +310,7 @@ function mousePressed() {
 function keyPressed() {
   switch (key) {
     case ' ': // Space key is pressed      
-      pause_play();
+      pause_game();
       break;
     case 'Enter':
       // Enter key is pressed

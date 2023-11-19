@@ -14,14 +14,14 @@ run_test_btn.onclick = () => {
     header_panel.classList.add("hide");
     splash_panel.classList.add("hide");
     let new_message = generate_message_box("Level 1",  1);
-    messages.push(new_message);
-
+    messages.push(new_message);    
 };
 
 
 reset_btn.onclick = () => {
   reset_canvas(game_canvas);
   reset_state();
+  glitch1.play();
   stop_audio(backing_track, true);  
 }
 
@@ -31,7 +31,8 @@ test_btn.onclick = () => {
 }
 
 pause_canvas_btn.onclick = () => {
-  pause_play();
+  pause_game();
+  pause.play();
 }
 
 function build_ui_element(module){

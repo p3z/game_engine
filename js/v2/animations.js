@@ -98,7 +98,7 @@ function detect_player_enemy_collision(player){
 
       //player_score += PLAYER_SCORE_MAGNITUDE;
       
-      
+      crash1.play();
       enemies.splice(i, 1); // Remove the enemy
       break; // Exit the loop
     }
@@ -115,7 +115,8 @@ function detect_player_powerup_collision(player){
     if (collideRectRect(powerup.x, powerup.y, powerup.size, powerup.size, player.x, player.y, player.size, player.size)) {
 
       //player_score += PLAYER_SCORE_MAGNITUDE;
-      
+      //powerup1.play();
+      blip2.play();
       
       powerups.splice(i, 1); // Remove the enemy
       break; // Exit the loop

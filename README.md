@@ -41,3 +41,12 @@ v2:
 - Using DOM elements isn't going to scale. Performance is already taking a hit with imposed limits. Switch to making use of the canvas API via a library
 04/11/23
 - Decided on P5, replicated majority of existing functionality making use of this. (v1 is stored inside archive folder)
+
+### Sound effects and music
+- Track1: https://freemusicarchive.org/music/rhapsody/single/a-morbid-curiosity-chiptune-version/
+- Pause: https://freesound.org/people/RunnerPack/sounds/87039/
+- Powerup1: https://freesound.org/people/MATRIXXX_/sounds/523650/
+- Crash1: https://freesound.org/people/bumpelsnake/sounds/456612/
+- Glitch1: https://freesound.org/people/The-Sacha-Rush/sounds/657809/
+- Blip1: https://freesound.org/people/cabled_mess/sounds/350863/
+- Blip2: https://freesound.org/people/cabled_mess/sounds/350859/

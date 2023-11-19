@@ -60,7 +60,7 @@ function initialise_messages(msg_arr){
 
 
 
-function pause_play(){
+function pause_game(){
   game_paused = !game_paused;
 
   if(game_paused){
