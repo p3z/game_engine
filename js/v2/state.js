@@ -7,6 +7,11 @@ let game_difficulty = 1;
 let use_bg_transition = true; 
 let player_avatar;
 let player_1_spawned = false; // a flag to determine if the player is currently on the canvas
+let bg_scroll_factor = 1; // the background animations have set speeds, use this to speed em up or slow em down
+let game_clock = 0;
+
+
+
 
 const enemy_angle_obj = {
   min_speed: 3,
@@ -83,4 +88,12 @@ function reset_state(){
   use_bg_transition = true; 
   player_score = 0;
   enemy_spawn_interval =  60 * 3; // 60 frames per second (p5 default) * 3 seconds
+}
+d
+function inc_game_clock(animated_frames_count){
+
+  if(animated_frames_count % 60 === 0){
+    game_clock++;
+  }
+  
 }

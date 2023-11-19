@@ -139,17 +139,6 @@ body{
   right: 0;
 }
 
-.lifeboard-meter1{
-  height: 12px;
-  top: -12px; /* opposite of the height, so it sits directly on top*/
-  width: 100%;
-  background: rgb(45, 223, 255);
-  position: absolute;
-}
-
-
-
-
 
 .lifeboard-avatar{
   max-width: 15px;

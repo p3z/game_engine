@@ -1,10 +1,10 @@
 function preload() {
   player_avatar = loadImage('./img/rocket-icon-wht.png');  
   enemy_avatar_1 = loadImage('./img/enemy-rocket-wht.png');
-  VT323 =  loadFont('../fonts/VT323/VT323-Regular.ttf'); 
+  //VT323 =  loadFont('../fonts/VT323/VT323-Regular.ttf'); 
 }
 
-function handle_controller(){
+function init_controller(){
   let gamepads = navigator.getGamepads();
   
 
@@ -138,6 +138,9 @@ function setup(){
       console.log("Gamepad disconnected:", e.gamepad);
       controller_connected = false;
     });
+
+    
+
 }
 
 // dont call this fn 'setup', you'll conflict with p5 defaults and invoke it immediately! using a custom fn name so that it's not immediately invoked 
@@ -173,7 +176,7 @@ function draw_scoreboard(score){
 function draw() {
 
   if(controller_connected){
-    handle_controller(controller_connected);
+    init_controller(controller_connected);
   }
   
   /* Handle the fancy spacey animation of the background gradient changing color*/
@@ -219,6 +222,14 @@ function draw() {
 
   if (player_1_spawned) {
 
+      
+    
+      // use this to randomly spawn powerups
+      if(game_clock === 3){
+        //console.log("3 seconds passed")
+      }
+      
+
     // Calculate avatar pos, centered on the cursor
     let imageX = mouseX - player_avatar.width / 2;
     let imageY = mouseY - player_avatar.height / 2;
@@ -254,6 +265,7 @@ function draw() {
       animate_messages(messages, game_paused);
       animate_projectiles(projectiles, game_paused);
       animate_enemies(enemies, game_paused);
+      inc_game_clock();
     
   }
   
@@ -276,6 +288,8 @@ function mousePressed() {
     generate_projectile("rgba(255, 0, 0, 0.5)");
     laser1.play();
   }
+
+  
   
 }
 

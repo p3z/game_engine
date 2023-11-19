@@ -5,7 +5,7 @@ function animate_celestials(celestials, paused = false){
       let current = celestials[i];
       
       if(!paused){
-        current.y += current.speed; // Move the celestial downwards
+        current.y += current.speed * bg_scroll_factor; // Move the celestial downwards
       }
            
 
