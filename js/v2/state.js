@@ -68,6 +68,10 @@ function pause_play(){
 function reset_state(){
   stars = [];
   planets = [];
+  projectiles = [];
+  enemies = [];
+  messages = [];
+  
   pause_canvas_btn.classList.add("hide");
   test_btn.classList.add("hide");
   reset_btn.classList.add("hide");
