@@ -1,5 +1,5 @@
-# Shay's game engine
-Just a place to experiment with some ideas related to making videogames while simultaneously testing my current programming proficiency.
+# Play_Construct -> a rudimentary game engine
+This project is just a place to experiment with some ideas related to making videogames while simultaneously testing my current programming proficiency.
 
 This is custom software that I'm writing from the ground up without consulting any specific framework, or tutorial. I'm literally building this with intuition and from my own personal experience actually playing videogames over the years.
 
@@ -8,22 +8,30 @@ Quick ideas and tests are built here: https://codepen.io/p3z-the-vuer/pens/publi
 
 
 ## Objectives
-Upon completion, use the engine to create a game in each of these genres.
-- vertical scrollers
+Upon completion, use the engine to create a different game with each of these mechanics. The engine will have a modular component for each isolated mechanic, so that we can granularly load selected components for a particular project
+- vertical scrollers -> in progress
 - side scrollers
 - tilemap / sprite based games
 - first-person perspective
 - third-person perspective
-- deck building / card game
+- deck building / card games
+- traditional games (think board games)
 - point and click / node traversing
+- Interactive puzzles (from simple to fast-paced, eg from sudoku to candycrush)
+ 
+ ### Bonus objectives
+ Investigate how one would go about crafting something more complex like these: 
+- open world
+- procedurally generated
 
 ## JS Map
 - utils.js: generic functions that could be used anywhere
 v2: 
+    - settings: a place to store variables that don't typically change, used mostly for default and initialisation params.
     - animations: 
     - DOM_elements: a place to register everything in the DOM that is interactable
     - evt_handlers: a place to define event-based functionality
-    - settings: a place to store things that don't typically change
+    - generators: a place to store functions that spawn game elements
     - state: a place to store state variables that change across the running of the program
     - main: custom p5 logic is specified here that may invoke functions from everywhere else
 
@@ -32,4 +40,4 @@ v2:
 03/11/23
 - Using DOM elements isn't going to scale. Performance is already taking a hit with imposed limits. Switch to making use of the canvas API via a library
 04/11/23
-- Decided on P5, replicated majority of existing functionality making use of this
+- Decided on P5, replicated majority of existing functionality making use of this. (v1 is stored inside archive folder)
