@@ -1,7 +1,3 @@
-function generate_game_object(){
-
-}
-
 function generate_celestial(type){
 
    let size, potential_cols;

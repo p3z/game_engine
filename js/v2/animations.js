@@ -167,7 +167,7 @@ function animate_messages(text_arr, paused = false){
     if (animated_frames_count >= msg.delay) {    
       
       //console.log(msg)
-      
+      //textFont(VT323); // this is affecting performance... p5 does NOT like custom fonts, how dumb -_-
       textSize(msg.size);
       fill(msg.color);
       stroke(0);

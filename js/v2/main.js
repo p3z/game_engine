@@ -1,7 +1,7 @@
 function preload() {
   player_avatar = loadImage('./img/rocket-icon-wht.png');  
   enemy_avatar_1 = loadImage('./img/enemy-rocket-wht.png');
-  
+  VT323 =  loadFont('../fonts/VT323/VT323-Regular.ttf'); 
 }
 
 function handle_controller(){
@@ -149,7 +149,7 @@ function init_canvas() {
 
 function draw_scoreboard(score){
     let scoreboard_width = 150;
-    let scoreboard_height = 50;
+    //let scoreboard_height = 50;
     let padding = 30;
 
     // Calculate the position for the top-right corner
@@ -161,6 +161,7 @@ function draw_scoreboard(score){
     // rect(scoreboard_x, scoreboard_y, scoreboard_width, scoreboard_height);
     
     // Add text inside the rectangle
+    //textFont(VT323); // this is affecting performance... p5 does NOT like custom fonts, how dumb -_-
     textSize(32); // Set the text size
     fill("rgba(255,255,255,0.6)"); // Set the text fill color to white
     //textAlign(CENTER, CENTER); // Center the text horizontally and vertically
