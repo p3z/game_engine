@@ -81,7 +81,7 @@ function generate_message_box(text, base_delay){
  let message_obj = {
    text: text,
    x: random_num(MESSAGES_X_LOWER_BOUND, MESSAGES_X_UPPER_BOUND), // where on the x axis do we want to spawn it?
-   y: origin, // spawn it above the canvas
+   y: -size, // spawn it above the canvas
    size: size ?? 32,
    color: "#fff",
    speed: 6, // dont use random speeds = words might be faster than they should
@@ -91,4 +91,23 @@ function generate_message_box(text, base_delay){
  //console.log(message_obj)
 
  return message_obj;
+}
+
+function generate_powerup(type){
+
+  let size = 35;
+  
+  let powerup_obj = {
+    x: random(width),
+    y: -size, // spawn it above the canvas,
+    size: size,
+    speed: 3 // should they be a fixed speed?
+  };
+  
+  powerups.push(powerup_obj);
+  //console.log(powerup_obj)
+
+ return powerup_obj;
+ 
+
 }

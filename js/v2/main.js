@@ -1,7 +1,8 @@
 function preload() {
   player_avatar = loadImage('./img/rocket-icon-wht.png');  
   enemy_avatar_1 = loadImage('./img/enemy-rocket-wht.png');
-  //VT323 =  loadFont('../fonts/VT323/VT323-Regular.ttf'); 
+  powerup_img_1 = loadImage('./img/thunder-icon-yel.png');
+  //VT323 =  loadFont('../fonts/VT323/VT323-Regular.ttf'); // not using cos canvas cant handle text spacing -_-
 }
 
 function init_controller(){
@@ -222,14 +223,6 @@ function draw() {
 
   if (player_1_spawned) {
 
-      
-    
-      // use this to randomly spawn powerups
-      if(game_clock === 3){
-        //console.log("3 seconds passed")
-      }
-      
-
     // Calculate avatar pos, centered on the cursor
     let imageX = mouseX - player_avatar.width / 2;
     let imageY = mouseY - player_avatar.height / 2;
@@ -238,13 +231,17 @@ function draw() {
     // stroke(255, 0, 0); // Red border color
     // strokeWeight(2); // Border width
     // noFill(); // No fill inside the border
-    // rect(imageX, imageY, player_avatar.width, player_avatar.height);
+    //rect(imageX, imageY, player_avatar.width, player_avatar.height);
     
     image(player_avatar, imageX, imageY, BASIC_AVATAR_SIZE, BASIC_AVATAR_SIZE);
+    player_1.x = mouseX;
+    player_1.y = mouseY;
+    player_1.size = BASIC_AVATAR_SIZE;
+    
     
 
     // Check if it's time to spawn a new enemy
-    if(!game_paused && animated_frames_count % enemy_spawn_interval == 0){
+    if(!game_paused && animated_frames_count % enemy_spawn_interval === 0){
 
       for(let i = 0; i <= game_difficulty; i++){          
         if(enemies.length < MAX_ENEMY_QTY){
@@ -260,12 +257,25 @@ function draw() {
       
       
     }
+    
+    // check if its time to spawn a new powerup
+    if(!game_paused && animated_frames_count % powerup_spawn_interval === 0){
+      
+        let powerup = generate_powerup();
+        //console.log(powerup)
+        if(powerups.length < 2){
+          powerups.push(powerup);
+        }
+        
+    }
 
       
       animate_messages(messages, game_paused);
       animate_projectiles(projectiles, game_paused);
       animate_enemies(enemies, game_paused);
-      inc_game_clock();
+      animate_powerups(powerups, game_paused);
+      detect_player_enemy_collision(player_1);
+      detect_player_powerup_collision(player_1);
     
   }
   

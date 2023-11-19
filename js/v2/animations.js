@@ -87,13 +87,50 @@ function detect_enemy_collision(shot, i){
   }
 }
 
+function detect_player_enemy_collision(player){
+
+
+  for (let i = enemies.length - 1; i >= 0; i--) {
+    let enemy = enemies[i];
+    
+    // Check for collision between the enemy and the enemy using collideRectRect (comes from collide2d package)
+    if (collideRectRect(enemy.x, enemy.y, enemy.size, enemy.size, player.x, player.y, player.size, player.size)) {
+
+      //player_score += PLAYER_SCORE_MAGNITUDE;
+      
+      
+      enemies.splice(i, 1); // Remove the enemy
+      break; // Exit the loop
+    }
+  }
+}
+
+function detect_player_powerup_collision(player){
+
+
+  for (let i = powerups.length - 1; i >= 0; i--) {
+    let powerup = powerups[i];
+    
+    // Check for collision between the enemy and the enemy using collideRectRect (comes from collide2d package)
+    if (collideRectRect(powerup.x, powerup.y, powerup.size, powerup.size, player.x, player.y, player.size, player.size)) {
+
+      //player_score += PLAYER_SCORE_MAGNITUDE;
+      
+      
+      powerups.splice(i, 1); // Remove the enemy
+      break; // Exit the loop
+    }
+  }
+}
+
+
 function animate_projectiles(projectiles, paused = false){
   for (let i = projectiles.length - 1; i >= 0; i--) {
 
       let shot = projectiles[i];
-      let fire_origin = shot.y - player_avatar.height - 10;
+      let fire_origin = shot.y - player_avatar.height - 10; // -10  is an offset cos you dont want projectile to come out of center of image
 
-      fill(shot.color); // Set the fill color to the projectile's color
+      fill(shot.color);
       noStroke(); 
       rect(shot.x, fire_origin, shot.width, shot.height);
 
@@ -140,9 +177,8 @@ function animate_enemies(enemies, paused = false){
       }
       
 
-      //fill("red"); // Set the fill color to the enemy's color
-      
-      //rect(-enemy.size / 2, -enemy.size / 2, enemy.size, enemy.size); // Draw the bounding box
+      // fill("white"); // Set the fill color to the enemy's color      
+      // rect(-enemy.size / 2, -enemy.size / 2, enemy.size, enemy.size); // Draw the bounding box
       imageMode(CENTER); // Set image mode to center
       image(enemy_avatar_1, 0, 0, enemy.size, enemy.size); // Draw the image centered
       pop(); // Restore the previous transformation state
@@ -156,6 +192,32 @@ function animate_enemies(enemies, paused = false){
         //console.log("enemy left the screen");
       }
   }
+}
+
+function animate_powerups(powerups, paused = false){   
+
+  for (let i = powerups.length - 1; i >= 0; i--) {
+
+    let current = powerups[i];
+    
+    if(!paused){
+      current.y += current.speed; // Move the powerup downwards
+    }
+         
+    //  stroke(255, 0, 0); // Red border color
+    //  strokeWeight(2); // Border width
+    //  noFill(); // No fill inside the border
+    //  rect(current.x, current.y, current.size, current.size);
+     image(powerup_img_1, current.x, current.y, current.size, current.size); // Draw the image centered
+
+    // Remove celestials that have moved off the canvas
+    if (current.y > height) {
+      powerups.splice(i, 1);
+      console.log("powerup left the screen")
+    }
+
+  }
+
 }
 
 function animate_messages(text_arr, paused = false){
