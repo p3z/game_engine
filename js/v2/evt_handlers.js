@@ -3,13 +3,13 @@ menu_btn.onclick = () => {
 }
 
 
-run_test_btn.onclick = () => {    
+start_vert_scroller.onclick = () => {    
     backing_track.play();    
     game_paused = false;
     init_canvas();
     reset_btn.classList.remove("hide");
     test_btn.classList.remove("hide");
-    run_test_btn.classList.add("hide");
+    start_vert_scroller.classList.add("hide");
     pause_canvas_btn.classList.remove("hide");
     header_panel.classList.add("hide");
     splash_panel.classList.add("hide");
@@ -44,7 +44,9 @@ function build_ui_element(module){
 
 function init_play_contruct(){
 
-  GAME_ENGINE_MODULES.forEach( module => {
+  let modules = Object.keys(GAME_ENGINE_MODULES);
+
+  modules.forEach( module => {
       switch(module){
           case 'vert_scroller':
             build_ui_element(module);

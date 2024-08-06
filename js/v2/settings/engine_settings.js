@@ -1,5 +1,12 @@
-const GAME_ENGINE_MODULES = [
-   'vert_scroller',
+const GAME_ENGINE_MODULES = {
+   'vert_scroller': {
+      music: {}
+
+   },
+   'tiler': {
+      music: {}
+
+   },
    // 'side_scoller',
    // 'tilemap',
    // 'first_person',
@@ -8,4 +15,4 @@ const GAME_ENGINE_MODULES = [
    // 'traditional',
    // 'point_and_click',
    // 'puzzler'
-];
+};

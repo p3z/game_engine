@@ -1,4 +1,3 @@
-const origin = -100; // above the top of the canvas so things can animate in
 let game_paused = true;
 let animated_frames_count = 0; // not all frames are animated, if the game is paused for example, then p5's frameCount continues running but anything that makes use of it may be off. So use this instead, and update it after every frame of animations that has run
 let controller_connected = false;
@@ -83,7 +82,7 @@ function reset_state(){
   pause_canvas_btn.classList.add("hide");
   test_btn.classList.add("hide");
   reset_btn.classList.add("hide");
-  run_test_btn.classList.remove("hide");
+  start_vert_scroller.classList.remove("hide");
   header_panel.classList.remove("hide");
   splash_panel.classList.remove("hide");
   player_1_spawned = false;
